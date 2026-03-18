@@ -15,14 +15,15 @@
 - [x] Booking conflict checks include timetable, maintenance, and overlap
 - [x] Booking create + audit log write implemented transactionally
 - [x] Centralized error handler improved for status/statusCode
+- [x] Harden refresh token strategy (rotation/revocation table)
+
 
 ## In Progress
 
-- [~] Harden refresh token strategy (rotation/revocation table)
+- [~] Add proper auth session persistence for refresh tokens (DB-backed)
 
 ## To Do
 
-- [ ] Add proper auth session persistence for refresh tokens (DB-backed)
 - [ ] Add logout token revocation logic
 - [ ] Add role/permission constants shared across modules
 - [ ] Add consistent DTO/response formatter per module
