@@ -1,0 +1,88 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum RoleName {
+  ADMIN
+  FACULTY
+  STUDENT
+}
+
+enum BookingStatus {
+  CONFIRMED
+  CANCELLED
+}
+
+model User {
+  id           String      @id @default(cuid())
+  email        String      @unique
+  passwordHash String
+  fullName     String
+  role         RoleName
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  bookings     Booking[]
+  auditLogs    AuditLog[]
+}
+
+model Classroom {
+  id             String          @id @default(cuid())
+  roomCode       String          @unique
+  building       String
+  capacity       Int
+  facilities     String[]
+  isMaintenance  Boolean         @default(false)
+  timetableSlots TimetableSlot[]
+  bookings       Booking[]
+}
+
+model TimetableSlot {
+  id          String    @id @default(cuid())
+  classroomId String
+  dayOfWeek   Int
+  startTime   String
+  endTime     String
+  subject     String?
+  facultyName String?
+  classroom   Classroom @relation(fields: [classroomId], references: [id], onDelete: Cascade)
+
+  @@index([classroomId, dayOfWeek])
+}
+
+model Booking {
+  id          String        @id @default(cuid())
+  classroomId String
+  userId      String
+  date        DateTime
+  startTime   String
+  endTime     String
+  purpose     String?
+  status      BookingStatus @default(CONFIRMED)
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  classroom   Classroom     @relation(fields: [classroomId], references: [id], onDelete: Restrict)
+  user        User          @relation(fields: [userId], references: [id], onDelete: Restrict)
+
+  @@index([classroomId, date])
+  @@index([userId, date])
+  @@unique([classroomId, date, startTime, endTime])
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String
+  action    String
+  entity    String
+  entityId  String
+  metadata  Json?
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Restrict)
+
+  @@index([entity, entityId])
+  @@index([createdAt])
+}
