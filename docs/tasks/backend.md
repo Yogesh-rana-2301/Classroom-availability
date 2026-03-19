@@ -16,18 +16,19 @@
 - [x] Booking create + audit log write implemented transactionally
 - [x] Centralized error handler improved for status/statusCode
 - [x] Harden refresh token strategy (rotation/revocation table)
+- [x] Add proper auth session persistence for refresh tokens (DB-backed)
+
 
 
 ## In Progress
-
-- [~] Add proper auth session persistence for refresh tokens (DB-backed)
-
-## To Do
 
 - [ ] Add logout token revocation logic
 - [ ] Add role/permission constants shared across modules
 - [ ] Add consistent DTO/response formatter per module
 - [ ] Add pagination/filtering on list endpoints
+
+## To Do
+
 - [ ] Add endpoint-level authorization checks for booking read/cancel
 - [ ] Add admin timetable import parser (JSON validation + transactional upsert)
 - [ ] Add global request ID and structured logging
