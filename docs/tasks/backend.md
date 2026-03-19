@@ -17,23 +17,24 @@
 - [x] Centralized error handler improved for status/statusCode
 - [x] Harden refresh token strategy (rotation/revocation table)
 - [x] Add proper auth session persistence for refresh tokens (DB-backed)
+- [x] Add logout token revocation logic
+- [x] Add role/permission constants shared across modules
+- [x] Add consistent DTO/response formatter per module
+- [x] Add pagination/filtering on list endpoints
 
 
 
 ## In Progress
-
-- [ ] Add logout token revocation logic
-- [ ] Add role/permission constants shared across modules
-- [ ] Add consistent DTO/response formatter per module
-- [ ] Add pagination/filtering on list endpoints
-
-## To Do
-
+  
 - [ ] Add endpoint-level authorization checks for booking read/cancel
 - [ ] Add admin timetable import parser (JSON validation + transactional upsert)
 - [ ] Add global request ID and structured logging
 - [ ] Add rate limiting for auth endpoints
 - [ ] Add API contract docs (request/response examples)
+
+## To Do
+
+- [ ] NAN 
 
 ## Done Criteria
 
