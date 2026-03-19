@@ -2,8 +2,7 @@ import { classroomsRepository } from "./classrooms.repository.js";
 
 export const classroomsService = {
   async list(filters) {
-    const items = await classroomsRepository.list(filters);
-    return { items };
+    return classroomsRepository.list(filters);
   },
 
   async getById(id) {

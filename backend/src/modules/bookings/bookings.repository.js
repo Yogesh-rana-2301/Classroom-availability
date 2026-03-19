@@ -37,12 +37,42 @@ export const bookingsRepository = {
     });
   },
 
-  async findByUser(userId) {
-    return prisma.booking.findMany({
-      where: { userId },
-      orderBy: { createdAt: "desc" },
-      include: { classroom: true },
-    });
+  async findByUser(userId, query) {
+    const page = query.page || 1;
+    const pageSize = query.pageSize || 20;
+    const skip = (page - 1) * pageSize;
+
+    const where = {
+      userId,
+      ...(query.status ? { status: query.status } : {}),
+      ...(query.classroomId ? { classroomId: query.classroomId } : {}),
+      ...(query.fromDate || query.toDate
+        ? {
+            date: {
+              ...(query.fromDate ? { gte: new Date(query.fromDate) } : {}),
+              ...(query.toDate ? { lte: new Date(query.toDate) } : {}),
+            },
+          }
+        : {}),
+    };
+
+    const [items, total] = await prisma.$transaction([
+      prisma.booking.findMany({
+        where,
+        orderBy: { createdAt: "desc" },
+        include: { classroom: true },
+        skip,
+        take: pageSize,
+      }),
+      prisma.booking.count({ where }),
+    ]);
+
+    return {
+      items,
+      total,
+      page,
+      pageSize,
+    };
   },
 
   async findById(id) {

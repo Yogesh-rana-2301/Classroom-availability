@@ -1,9 +1,8 @@
 import { timetableRepository } from "./timetable.repository.js";
 
 export const timetableService = {
-  async list() {
-    const items = await timetableRepository.list();
-    return { items };
+  async list(query) {
+    return timetableRepository.list(query);
   },
 
   async importData(payload) {

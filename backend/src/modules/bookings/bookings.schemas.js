@@ -11,3 +11,12 @@ export const createBookingSchema = z.object({
 export const bookingIdParamsSchema = z.object({
   id: z.string().min(1),
 });
+
+export const bookingsListQuerySchema = z.object({
+  status: z.enum(["CONFIRMED", "CANCELLED"]).optional(),
+  classroomId: z.string().min(1).optional(),
+  fromDate: z.string().optional(),
+  toDate: z.string().optional(),
+  page: z.coerce.number().int().positive().default(1),
+  pageSize: z.coerce.number().int().positive().max(100).default(20),
+});

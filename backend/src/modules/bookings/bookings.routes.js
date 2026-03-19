@@ -3,9 +3,11 @@ import { requireAuth } from "../../middleware/auth.js";
 import { requireRole } from "../../middleware/authorize.js";
 import { validateRequest } from "../../middleware/validateRequest.js";
 import { asyncHandler } from "../../middleware/asyncHandler.js";
+import { ROLE_GROUPS } from "../../common/auth/authorization.js";
 import { bookingsController } from "./bookings.controller.js";
 import {
   bookingIdParamsSchema,
+  bookingsListQuerySchema,
   createBookingSchema,
 } from "./bookings.schemas.js";
 
@@ -14,7 +16,7 @@ export const bookingsRouter = Router();
 bookingsRouter.post(
   "/",
   requireAuth,
-  requireRole(["ADMIN", "FACULTY"]),
+  requireRole(ROLE_GROUPS.STAFF),
   validateRequest({ body: createBookingSchema }),
   asyncHandler(bookingsController.create),
 );
@@ -22,14 +24,15 @@ bookingsRouter.post(
 bookingsRouter.get(
   "/my",
   requireAuth,
-  requireRole(["ADMIN", "FACULTY"]),
+  requireRole(ROLE_GROUPS.STAFF),
+  validateRequest({ query: bookingsListQuerySchema }),
   asyncHandler(bookingsController.mine),
 );
 
 bookingsRouter.get(
   "/:id",
   requireAuth,
-  requireRole(["ADMIN", "FACULTY"]),
+  requireRole(ROLE_GROUPS.STAFF),
   validateRequest({ params: bookingIdParamsSchema }),
   asyncHandler(bookingsController.getById),
 );
@@ -37,7 +40,7 @@ bookingsRouter.get(
 bookingsRouter.patch(
   "/:id/cancel",
   requireAuth,
-  requireRole(["ADMIN", "FACULTY"]),
+  requireRole(ROLE_GROUPS.STAFF),
   validateRequest({ params: bookingIdParamsSchema }),
   asyncHandler(bookingsController.cancel),
 );

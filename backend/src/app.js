@@ -4,6 +4,7 @@ import morgan from "morgan";
 import cookieParser from "cookie-parser";
 import { env } from "./config/env.js";
 import { apiRouter } from "./routes/index.js";
+import { sendError, sendSuccess } from "./common/response/formatter.js";
 
 export const app = express();
 
@@ -18,15 +19,22 @@ app.use(cookieParser());
 app.use(morgan("dev"));
 
 app.get("/api/v1/health", (_, res) => {
-  res.status(200).json({ status: "ok" });
+  return sendSuccess(res, {
+    statusCode: 200,
+    message: "Service healthy",
+    data: { status: "ok" },
+    meta: { module: "system", action: "health" },
+  });
 });
 
 app.use("/api/v1", apiRouter);
 
 app.use((err, _req, res, _next) => {
   console.error(err);
-  res.status(err.status || err.statusCode || 500).json({
+  return sendError(res, {
+    statusCode: err.status || err.statusCode || 500,
     message: err.message || "Internal Server Error",
-    ...(err.errors ? { errors: err.errors } : {}),
+    errors: err.errors,
+    meta: { module: "system", action: "error" },
   });
 });

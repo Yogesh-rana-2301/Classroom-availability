@@ -3,7 +3,7 @@ import { requireAuth } from "../../middleware/auth.js";
 import { validateRequest } from "../../middleware/validateRequest.js";
 import { asyncHandler } from "../../middleware/asyncHandler.js";
 import { authController } from "./auth.controller.js";
-import { loginSchema } from "./auth.schemas.js";
+import { loginSchema, logoutSchema } from "./auth.schemas.js";
 
 export const authRouter = Router();
 
@@ -15,6 +15,16 @@ authRouter.post(
 
 authRouter.post("/refresh", asyncHandler(authController.refresh));
 
-authRouter.post("/logout", asyncHandler(authController.logout));
+authRouter.post(
+  "/logout",
+  validateRequest({ body: logoutSchema }),
+  asyncHandler(authController.logout),
+);
+
+authRouter.post(
+  "/logout/all",
+  requireAuth,
+  asyncHandler(authController.logoutAll),
+);
 
 authRouter.get("/me", requireAuth, asyncHandler(authController.me));

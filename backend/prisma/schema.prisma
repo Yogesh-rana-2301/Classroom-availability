@@ -28,6 +28,7 @@ model User {
   updatedAt    DateTime    @updatedAt
   bookings     Booking[]
   auditLogs    AuditLog[]
+  refreshTokenSessions RefreshTokenSession[]
 }
 
 model Classroom {
@@ -85,4 +86,21 @@ model AuditLog {
 
   @@index([entity, entityId])
   @@index([createdAt])
+}
+
+model RefreshTokenSession {
+  id                  String   @id @default(cuid())
+  userId              String
+  tokenHash           String   @unique
+  expiresAt           DateTime
+  createdAt           DateTime @default(now())
+  revokedAt           DateTime?
+  replacedByTokenHash String?
+  revokedReason       String?
+  userAgent           String?
+  ipAddress           String?
+  user                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@index([expiresAt])
 }

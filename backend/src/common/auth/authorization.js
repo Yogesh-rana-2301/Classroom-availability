@@ -1,0 +1,38 @@
+export const ROLES = {
+  ADMIN: "ADMIN",
+  FACULTY: "FACULTY",
+  STUDENT: "STUDENT",
+};
+
+export const PERMISSIONS = {
+  BOOKINGS_CREATE: "bookings:create",
+  BOOKINGS_READ_OWN: "bookings:read:own",
+  BOOKINGS_CANCEL_OWN: "bookings:cancel:own",
+  BOOKINGS_MANAGE_ALL: "bookings:manage:all",
+  TIMETABLE_MANAGE: "timetable:manage",
+  MAINTENANCE_MANAGE: "maintenance:manage",
+  AUDIT_LOGS_READ: "audit_logs:read",
+  CLASSROOMS_READ: "classrooms:read",
+};
+
+export const ROLE_GROUPS = {
+  ADMIN_ONLY: [ROLES.ADMIN],
+  STAFF: [ROLES.ADMIN, ROLES.FACULTY],
+  ALL_USERS: [ROLES.ADMIN, ROLES.FACULTY, ROLES.STUDENT],
+};
+
+export const PERMISSION_ROLES = {
+  [PERMISSIONS.BOOKINGS_CREATE]: [ROLES.ADMIN, ROLES.FACULTY],
+  [PERMISSIONS.BOOKINGS_READ_OWN]: [ROLES.ADMIN, ROLES.FACULTY],
+  [PERMISSIONS.BOOKINGS_CANCEL_OWN]: [ROLES.ADMIN, ROLES.FACULTY],
+  [PERMISSIONS.BOOKINGS_MANAGE_ALL]: [ROLES.ADMIN],
+  [PERMISSIONS.TIMETABLE_MANAGE]: [ROLES.ADMIN],
+  [PERMISSIONS.MAINTENANCE_MANAGE]: [ROLES.ADMIN],
+  [PERMISSIONS.AUDIT_LOGS_READ]: [ROLES.ADMIN],
+  [PERMISSIONS.CLASSROOMS_READ]: [ROLES.ADMIN, ROLES.FACULTY, ROLES.STUDENT],
+};
+
+export function hasPermission(role, permission) {
+  const allowedRoles = PERMISSION_ROLES[permission] || [];
+  return allowedRoles.includes(role);
+}

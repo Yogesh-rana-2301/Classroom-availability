@@ -1,5 +1,6 @@
 import { bookingsRepository } from "./bookings.repository.js";
 import { bookingConflictService } from "./booking-conflict.service.js";
+import { ROLES } from "../../common/auth/authorization.js";
 
 export const bookingsService = {
   async create(user, payload) {
@@ -8,9 +9,8 @@ export const bookingsService = {
     return { booking };
   },
 
-  async mine(userId) {
-    const items = await bookingsRepository.findByUser(userId);
-    return { items };
+  async mine(userId, query) {
+    return bookingsRepository.findByUser(userId, query);
   },
 
   async getById(id) {
@@ -27,7 +27,7 @@ export const bookingsService = {
     const updated = await bookingsRepository.cancel(
       bookingId,
       user.id,
-      user.role === "ADMIN",
+      user.role === ROLES.ADMIN,
     );
     return { booking: updated };
   },
