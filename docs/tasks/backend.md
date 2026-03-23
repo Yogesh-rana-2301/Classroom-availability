@@ -21,13 +21,12 @@
 - [x] Add role/permission constants shared across modules
 - [x] Add consistent DTO/response formatter per module
 - [x] Add pagination/filtering on list endpoints
-
+- [x] Add endpoint-level authorization checks for booking read/cancel
+- [x] Add admin timetable import parser (JSON validation + transactional upsert)
 
 
 ## In Progress
-  
-- [ ] Add endpoint-level authorization checks for booking read/cancel
-- [ ] Add admin timetable import parser (JSON validation + transactional upsert)
+   
 - [ ] Add global request ID and structured logging
 - [ ] Add rate limiting for auth endpoints
 - [ ] Add API contract docs (request/response examples)
