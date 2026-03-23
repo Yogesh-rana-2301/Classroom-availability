@@ -9,5 +9,5 @@ export async function fetchRoomAvailability(roomId, params = {}) {
   const { data } = await api.get(`/classrooms/${roomId}/availability`, {
     params,
   });
-  return data;
+  return data.data;
 }

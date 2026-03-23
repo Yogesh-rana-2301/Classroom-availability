@@ -10,17 +10,18 @@
 - [x] API service client structure added
 - [x] Connect login page to live backend login endpoint and token lifecycle
 - [x] Build classrooms list UI with filters and pagination foundation
+- [x] Implement room availability timeline/grid UI
+- [x] Implement booking form flow from room availability page
+- [x] Implement my bookings page with cancel action
+- [x] Implement admin timetable import UI
+- [x] Implement maintenance toggle UI per room
 
 ## In Progress
 
-- [~] Implement room availability timeline/grid UI
+- [~] Implement admin audit logs table with filters
 
 ## To Do
 
-- [ ] Implement booking form flow from room availability page
-- [ ] Implement my bookings page with cancel action
-- [ ] Implement admin timetable import UI
-- [ ] Implement maintenance toggle UI per room
 - [ ] Implement admin audit logs table with filters
 - [ ] Add role-based navigation visibility
 - [ ] Add form validation and reusable error components

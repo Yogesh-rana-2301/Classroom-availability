@@ -1,13 +1,39 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export default function BookingForm({ onSubmit }) {
+const defaultFormState = {
+  roomId: "",
+  date: "",
+  startTime: "",
+  endTime: "",
+  purpose: "",
+};
+
+export default function BookingForm({
+  onSubmit,
+  initialValues = {},
+  isLoading = false,
+  submitLabel = "Create Booking",
+  lockRoomAndDate = false,
+}) {
   const [form, setForm] = useState({
-    roomId: "",
-    date: "",
-    startTime: "",
-    endTime: "",
-    purpose: "",
+    ...defaultFormState,
+    ...initialValues,
   });
+
+  useEffect(() => {
+    setForm((prev) => ({
+      ...prev,
+      roomId: initialValues.roomId ?? prev.roomId,
+      date: initialValues.date ?? prev.date,
+      startTime: initialValues.startTime ?? prev.startTime,
+      endTime: initialValues.endTime ?? prev.endTime,
+    }));
+  }, [
+    initialValues.date,
+    initialValues.endTime,
+    initialValues.roomId,
+    initialValues.startTime,
+  ]);
 
   function update(field, value) {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -15,6 +41,7 @@ export default function BookingForm({ onSubmit }) {
 
   return (
     <form
+      className="booking-form"
       onSubmit={(event) => {
         event.preventDefault();
         onSubmit(form);
@@ -24,32 +51,41 @@ export default function BookingForm({ onSubmit }) {
         placeholder="Room ID"
         value={form.roomId}
         onChange={(e) => update("roomId", e.target.value)}
+        disabled={isLoading || lockRoomAndDate}
+        readOnly={lockRoomAndDate}
         required
       />
       <input
         type="date"
         value={form.date}
         onChange={(e) => update("date", e.target.value)}
+        disabled={isLoading || lockRoomAndDate}
+        readOnly={lockRoomAndDate}
         required
       />
       <input
         placeholder="Start (HH:mm)"
         value={form.startTime}
         onChange={(e) => update("startTime", e.target.value)}
+        disabled={isLoading}
         required
       />
       <input
         placeholder="End (HH:mm)"
         value={form.endTime}
         onChange={(e) => update("endTime", e.target.value)}
+        disabled={isLoading}
         required
       />
       <input
         placeholder="Purpose"
         value={form.purpose}
         onChange={(e) => update("purpose", e.target.value)}
+        disabled={isLoading}
       />
-      <button type="submit">Create Booking</button>
+      <button type="submit" disabled={isLoading}>
+        {isLoading ? "Creating..." : submitLabel}
+      </button>
     </form>
   );
 }
