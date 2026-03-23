@@ -8,16 +8,17 @@
 - [x] Feature-based folders created (`auth`, `availability`, `bookings`, `admin`)
 - [x] Shared UI component folders created (`components`, `forms`, `table`, `modal`, `feedback`)
 - [x] API service client structure added
+- [x] Connect login page to live backend login endpoint and token lifecycle
+
 
 ## In Progress
-
-- [~] Connect login page to live backend login endpoint and token lifecycle
-
-## To Do
 
 - [ ] Build real login form UX with loading and error states
 - [ ] Store access token in memory and implement refresh flow integration
 - [ ] Implement classrooms list UI with filters and pagination
+
+## To Do
+
 - [ ] Implement room availability timeline/grid UI
 - [ ] Implement booking form flow from room availability page
 - [ ] Implement my bookings page with cancel action
