@@ -76,7 +76,12 @@ export const bookingsRepository = {
   },
 
   async findById(id) {
-    return prisma.booking.findUnique({ where: { id } });
+    return prisma.booking.findUnique({
+      where: { id },
+      include: {
+        classroom: true,
+      },
+    });
   },
 
   async cancel(bookingId, userId, canOverride) {
@@ -89,7 +94,9 @@ export const bookingsRepository = {
     }
 
     if (!canOverride && current.userId !== userId) {
-      throw new Error("Not allowed to cancel this booking");
+      const error = new Error("Not allowed to cancel this booking");
+      error.status = 403;
+      throw error;
     }
 
     return prisma.booking.update({

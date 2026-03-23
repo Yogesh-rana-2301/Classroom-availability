@@ -1,5 +1,21 @@
 import { z } from "zod";
 
+const timetableEntrySchema = z.object({
+  course: z.string().trim().min(1),
+  venue: z.string().trim().min(1),
+});
+
+const timeSlotMapSchema = z.record(
+  z.string().regex(/^\d{2}:\d{2}-\d{2}:\d{2}$/),
+  z.array(timetableEntrySchema),
+);
+
+export const timetableImportBodySchema = z.object({
+  academic_year: z.string().trim().optional(),
+  department: z.string().trim().optional(),
+  schedule: z.record(z.string().min(1), timeSlotMapSchema),
+});
+
 export const maintenanceParamsSchema = z.object({
   id: z.string().min(1),
 });

@@ -12,7 +12,15 @@ import AdminAuditLogsPage from "../pages/AdminAuditLogsPage";
 import NotFoundPage from "../pages/NotFoundPage";
 
 function ProtectedRoute({ children, roles }) {
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, isBootstrapping } = useAuth();
+
+  if (isBootstrapping) {
+    return (
+      <section className="page">
+        <p>Loading session...</p>
+      </section>
+    );
+  }
 
   if (!isAuthenticated) {
     return <Navigate to="/login" replace />;

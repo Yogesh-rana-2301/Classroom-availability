@@ -8,10 +8,11 @@
 - [x] Feature-based folders created (`auth`, `availability`, `bookings`, `admin`)
 - [x] Shared UI component folders created (`components`, `forms`, `table`, `modal`, `feedback`)
 - [x] API service client structure added
+- [x] Connect login page to live backend login endpoint and token lifecycle
 
 ## In Progress
 
-- [~] Connect login page to live backend login endpoint and token lifecycle
+- [~] Build classrooms list UI with filters and pagination foundation
 
 ## To Do
 

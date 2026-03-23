@@ -6,6 +6,8 @@ export function toTimetableImportDto(payload) {
   return {
     message: payload.message,
     payloadPreview: payload.payloadPreview,
+    importedClassrooms: payload.importedClassrooms,
+    importedSlots: payload.importedSlots,
   };
 }
 

@@ -10,7 +10,7 @@ import {
 
 export const adminController = {
   async importTimetable(req, res) {
-    const data = await adminService.importTimetable(req.body);
+    const data = await adminService.importTimetable(req.body, req.user.id);
     return sendSuccess(res, {
       statusCode: 200,
       message: "Timetable import processed",

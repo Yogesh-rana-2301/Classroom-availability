@@ -11,6 +11,7 @@ import {
   adminTimetableQuerySchema,
   maintenanceBodySchema,
   maintenanceParamsSchema,
+  timetableImportBodySchema,
 } from "./admin.schemas.js";
 
 export const adminRouter = Router();
@@ -19,6 +20,7 @@ adminRouter.use(requireAuth, requireRole(ROLE_GROUPS.ADMIN_ONLY));
 
 adminRouter.post(
   "/timetable/import",
+  validateRequest({ body: timetableImportBodySchema }),
   asyncHandler(adminController.importTimetable),
 );
 

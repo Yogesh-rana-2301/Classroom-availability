@@ -1,6 +1,7 @@
-function buildMeta(meta = {}) {
+function buildMeta(res, meta = {}) {
   return {
     timestamp: new Date().toISOString(),
+    requestId: res?.locals?.requestId || null,
     ...meta,
   };
 }
@@ -13,7 +14,7 @@ export function sendSuccess(
     success: true,
     message,
     data,
-    meta: buildMeta(meta),
+    meta: buildMeta(res, meta),
   });
 }
 
@@ -30,6 +31,6 @@ export function sendError(
     success: false,
     message,
     ...(errors ? { errors } : {}),
-    meta: buildMeta(meta),
+    meta: buildMeta(res, meta),
   });
 }

@@ -24,7 +24,7 @@ export const bookingsController = {
   },
 
   async getById(req, res) {
-    const data = await bookingsService.getById(req.params.id);
+    const data = await bookingsService.getById(req.user, req.params.id);
     return sendSuccess(res, {
       statusCode: 200,
       message: "Booking details",
