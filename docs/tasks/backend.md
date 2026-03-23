@@ -23,13 +23,13 @@
 - [x] Add pagination/filtering on list endpoints
 - [x] Add endpoint-level authorization checks for booking read/cancel
 - [x] Add admin timetable import parser (JSON validation + transactional upsert)
+- [x] Add global request ID and structured logging
+- [x] Add rate limiting for auth endpoints
+- [x] Add API contract docs (request/response examples)
 
 
 ## In Progress
    
-- [ ] Add global request ID and structured logging
-- [ ] Add rate limiting for auth endpoints
-- [ ] Add API contract docs (request/response examples)
 
 ## To Do
 
