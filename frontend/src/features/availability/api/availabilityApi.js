@@ -2,7 +2,7 @@ import { api } from "../../../services/api";
 
 export async function fetchClassrooms(params = {}) {
   const { data } = await api.get("/classrooms", { params });
-  return data;
+  return data.data;
 }
 
 export async function fetchRoomAvailability(roomId, params = {}) {
