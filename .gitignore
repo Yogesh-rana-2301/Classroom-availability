@@ -47,6 +47,5 @@ temp/
 # Local SQLite databases (if any)
 *.sqlite
 *.sqlite3
- 
-/docs/how-to-run.md
+  
 /docs/tasks/ui-architecture.md
