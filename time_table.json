@@ -1,0 +1,916 @@
+[
+  {
+    "venue": "L22",
+    "type": "Lecture Hall",
+    "schedule": {
+      "Monday": {
+        "8:00-9:00": null,
+        "9:00-10:00": null,
+        "10:00-11:00": null,
+        "11:00-12:00": "CSN4005-IoT G2 (SH)",
+        "12:00-1:00": "CSN4004-CAO G2 (MD)",
+        "1:00-2:00": null,
+        "2:00-3:00": "CSN4006-AI G2 (KG)",
+        "3:00-4:00": "CSN4004-CAO G1 (MD)",
+        "4:00-5:00": null
+      },
+      "Tuesday": {
+        "8:00-9:00": null,
+        "9:00-10:00": "CSN4004-CAO G2 (MD)",
+        "10:00-11:00": "CSN4002-OS G2 (SS) + AIN4001-OS (SS/AD)",
+        "11:00-12:00": "CSN4001-DAA G2 (MG)",
+        "12:00-1:00": "CSN4004-CAO CSE1+CSE2+CSE3 Tut (MD/HAR+ARP)",
+        "1:00-2:00": "ES2301 LAB F2 ECE (SABH/AP)",
+        "2:00-3:00": "ES2301 LAB F2 ECE (SABH/AP)",
+        "3:00-4:00": null,
+        "4:00-5:00": null
+      },
+      "Wednesday": {
+        "8:00-9:00": null,
+        "9:00-10:00": null,
+        "10:00-11:00": null,
+        "11:00-12:00": "CSN4001-DAA G2 (MG)",
+        "12:00-1:00": "CSN4006-AI G2 (KG)",
+        "1:00-2:00": null,
+        "2:00-3:00": "CSN4003-CN G2 (TC/RM)",
+        "3:00-4:00": null,
+        "4:00-5:00": null
+      },
+      "Thursday": {
+        "8:00-9:00": null,
+        "9:00-10:00": "CSN4004-CAO G2 (MD)",
+        "10:00-11:00": "CSN4003-CN G2 (TC/RM)",
+        "11:00-12:00": "CSN4005-IoT G2 (SH)",
+        "12:00-1:00": null,
+        "1:00-2:00": null,
+        "2:00-3:00": "CSN4002-OS G2 + AIN4001-OS (SS/AD)",
+        "3:00-4:00": null,
+        "4:00-5:00": null
+      },
+      "Friday": {
+        "8:00-9:00": null,
+        "9:00-10:00": "CSN4004-CAO CSE4+5+6 Tut (MD)",
+        "10:00-11:00": "CSN4001-DAA G2 (MG)",
+        "11:00-12:00": "CSN4005-IoT G2 (SH)",
+        "12:00-1:00": "CSN4003-CN G2 (TC/RM)",
+        "1:00-2:00": null,
+        "2:00-3:00": "CSN4006-AI G2 (KG)",
+        "3:00-4:00": null,
+        "4:00-5:00": null
+      }
+    }
+  },
+  {
+    "venue": "L21",
+    "type": "Lecture Hall",
+    "schedule": {
+      "Monday": {
+        "8:00-9:00": null,
+        "9:00-10:00": null,
+        "10:00-11:00": "DS2803-Recommender Systems (SV)",
+        "11:00-12:00": "CSN4005-IoT G1 (DB)",
+        "12:00-1:00": "CSN4002-OS G1 (SS)",
+        "1:00-2:00": null,
+        "2:00-3:00": "CSN4001-DAA G1 (MG/RS)",
+        "3:00-4:00": "CSM1002-CN LAB (AK/ANM/AD)",
+        "4:00-5:00": "CSM1002-CN LAB (AK/ANM/AD)"
+      },
+      "Tuesday": {
+        "8:00-9:00": null,
+        "9:00-10:00": "CSN4002-OS G1 (SS)",
+        "10:00-11:00": "CSN4004-CAO G1 (MD)",
+        "11:00-12:00": "CSN4003-CN G1 (TC)",
+        "12:00-1:00": "CSN4004-CAO CSE1+CSE2+CSE3 Tut (MD/HAR+ARP)",
+        "1:00-2:00": null,
+        "2:00-3:00": null,
+        "3:00-4:00": null,
+        "4:00-5:00": "CSM1002-CN (AK)"
+      },
+      "Wednesday": {
+        "8:00-9:00": "CSM1002-CN LAB (AK/ANM)",
+        "9:00-10:00": "CSM1002-CN LAB (AK/ANM)",
+        "10:00-11:00": "CSN4002-OS G2 (SS) + AIN4001-OS (SS)",
+        "11:00-12:00": "CSN4003-CN G1 (TC)",
+        "12:00-1:00": "CSN4006-AI G1 (RS)",
+        "1:00-2:00": null,
+        "2:00-3:00": "CSN4001-DAA G1 (MG)",
+        "3:00-4:00": null,
+        "4:00-5:00": null
+      },
+      "Thursday": {
+        "8:00-9:00": null,
+        "9:00-10:00": "CSN4002-OS G1 (SS)",
+        "10:00-11:00": "CSN4006-AI G1 (RS)",
+        "11:00-12:00": "CSN4005-IoT G1 (DB)",
+        "12:00-1:00": "CSM1002-CN (AK)",
+        "1:00-2:00": null,
+        "2:00-3:00": "CSN4004-CAO G1 (MD)",
+        "3:00-4:00": "DS2803-Recommender Systems (SV)",
+        "4:00-5:00": null
+      },
+      "Friday": {
+        "8:00-9:00": "CSM1002-CN",
+        "9:00-10:00": "CSN4004-CAO CSE4+5+6 Tut (MD/DIV)",
+        "10:00-11:00": "CSN4003-CN G1 (TC)",
+        "11:00-12:00": "CSN4005-IoT G1 (DB)",
+        "12:00-1:00": "CSN4001-DAA G1 (MG)",
+        "1:00-2:00": null,
+        "2:00-3:00": "CSN4006-AI G1 (RS)",
+        "3:00-4:00": null,
+        "4:00-5:00": null
+      }
+    }
+  },
+  {
+    "venue": "405",
+    "type": "Lecture Hall",
+    "schedule": {
+      "Monday": {
+        "8:00-9:00": null,
+        "9:00-10:00": null,
+        "10:00-11:00": "CSR1257-AML (PV)",
+        "11:00-12:00": "CSR1104-DHPC (L) PS",
+        "12:00-1:00": "CSR1106-AioT (SH)",
+        "1:00-2:00": null,
+        "2:00-3:00": null,
+        "3:00-4:00": "Minor Spec Tut / CSR1106-Aiot Lab / AIN4001-OS Lab G2",
+        "4:00-5:00": "Minor Spec Tut / CSR1106-Aiot Lab / AIN4001-OS Lab G2"
+      },
+      "Tuesday": {
+        "8:00-9:00": null,
+        "9:00-10:00": null,
+        "10:00-11:00": "CSR1105-STT Prof. Neeraj",
+        "11:00-12:00": "CSE1001/AIE1001/DSE1001-WT + CSO1001-WT(OE) (L) (MK)",
+        "12:00-1:00": "CSR1106-AioT (SH)",
+        "1:00-2:00": null,
+        "2:00-3:00": null,
+        "3:00-4:00": "CSR1106-AioT Lab SAN/SAt/SH",
+        "4:00-5:00": "CSR1106-AioT Lab SAN/SAt/SH"
+      },
+      "Wednesday": {
+        "8:00-9:00": null,
+        "9:00-10:00": null,
+        "10:00-11:00": "CSR1104-DHPC (L) PS",
+        "11:00-12:00": "CSR3003-ML",
+        "12:00-1:00": null,
+        "1:00-2:00": null,
+        "2:00-3:00": "DS2803-Recommender Systems (SV)",
+        "3:00-4:00": "AIN4001-OS(SS) Lab G2 SS/BHT/AD",
+        "4:00-5:00": "AIN4001-OS(SS) Lab G2 SS/BHT/AD"
+      },
+      "Thursday": {
+        "8:00-9:00": null,
+        "9:00-10:00": null,
+        "10:00-11:00": null,
+        "11:00-12:00": "CSR3003-ML",
+        "12:00-1:00": null,
+        "1:00-2:00": null,
+        "2:00-3:00": "CSR1257-AML (SR)",
+        "3:00-4:00": null,
+        "4:00-5:00": "HSM-II (T) MHN205"
+      },
+      "Friday": {
+        "8:00-9:00": null,
+        "9:00-10:00": null,
+        "10:00-11:00": null,
+        "11:00-12:00": "CSR1105-STT",
+        "12:00-1:00": null,
+        "1:00-2:00": null,
+        "2:00-3:00": null,
+        "3:00-4:00": null,
+        "4:00-5:00": null
+      }
+    }
+  },
+  {
+    "venue": "406",
+    "type": "Lecture Hall",
+    "schedule": {
+      "Monday": {
+        "8:00-9:00": null,
+        "9:00-10:00": null,
+        "10:00-11:00": "CS2802/CS4801 Computer Vision (NK)",
+        "11:00-12:00": "CSE1001/AIE1001/DSE1001-WT + CSO1001-WT (L) (MK)",
+        "12:00-1:00": null,
+        "1:00-2:00": null,
+        "2:00-3:00": null,
+        "3:00-4:00": "Minor Spec Tut",
+        "4:00-5:00": "Minor Spec Tut"
+      },
+      "Tuesday": {
+        "8:00-9:00": null,
+        "9:00-10:00": null,
+        "10:00-11:00": null,
+        "11:00-12:00": "CS2807/CS4803-Recommender Systems (SV)",
+        "12:00-1:00": null,
+        "1:00-2:00": null,
+        "2:00-3:00": null,
+        "3:00-4:00": "ES2301 LAB T1 AERO",
+        "4:00-5:00": "ES2301 LAB T1 AERO"
+      },
+      "Wednesday": {
+        "8:00-9:00": null,
+        "9:00-10:00": null,
+        "10:00-11:00": null,
+        "11:00-12:00": "CS2807/CS4803-Recommender Systems (SV)",
+        "12:00-1:00": null,
+        "1:00-2:00": null,
+        "2:00-3:00": "CS2802/CS4801 Computer Vision (NK)",
+        "3:00-4:00": null,
+        "4:00-5:00": null
+      },
+      "Thursday": {
+        "8:00-9:00": null,
+        "9:00-10:00": null,
+        "10:00-11:00": "CS2802/CS4801 Computer Vision (NK)",
+        "11:00-12:00": "CS2807/CS4803-Recommender Systems (SV)",
+        "12:00-1:00": null,
+        "1:00-2:00": null,
+        "2:00-3:00": null,
+        "3:00-4:00": "DSN4005-DSML Lab DS1+DS3",
+        "4:00-5:00": "DSN4005-DSML Lab DS1+DS3"
+      },
+      "Friday": {
+        "8:00-9:00": null,
+        "9:00-10:00": null,
+        "10:00-11:00": "CSE1001/AIE1001/DSE1001-WT + CSO1001-WT (L) (MK)",
+        "11:00-12:00": null,
+        "12:00-1:00": null,
+        "1:00-2:00": "ES2301 LAB T2 M&C",
+        "2:00-3:00": "ES2301 LAB T2 M&C",
+        "3:00-4:00": "ES2301 LAB T2 AI VLSI",
+        "4:00-5:00": "ES2301 LAB T2 AI VLSI"
+      }
+    }
+  },
+  {
+    "venue": "407",
+    "type": "Lecture Hall",
+    "schedule": {
+      "Monday": {
+        "8:00-9:00": null,
+        "9:00-10:00": "DSN4003-AI (SHA)",
+        "10:00-11:00": "DSN4004-DBMS (SK)",
+        "11:00-12:00": "DSN4006-DAV (RK)",
+        "12:00-1:00": "DSN4001-STDS (NK)",
+        "1:00-2:00": null,
+        "2:00-3:00": "DSN4002-DSCS (SR/ARP) TUT DS1",
+        "3:00-4:00": "Minor Spec Tut",
+        "4:00-5:00": "Minor Spec Tut"
+      },
+      "Tuesday": {
+        "8:00-9:00": null,
+        "9:00-10:00": null,
+        "10:00-11:00": null,
+        "11:00-12:00": "DSN4001-STDS (NK)",
+        "12:00-1:00": "DSN4005-DSML (PS)",
+        "1:00-2:00": null,
+        "2:00-3:00": null,
+        "3:00-4:00": null,
+        "4:00-5:00": "DSM1002 (VAI)"
+      },
+      "Wednesday": {
+        "8:00-9:00": "DSM1002 (VAI)",
+        "9:00-10:00": "DSM1002 (VAI)",
+        "10:00-11:00": "DSN4003-AI (SHA)",
+        "11:00-12:00": "DSN4004-DBMS (SK)",
+        "12:00-1:00": "DSN4002-DSCS (SR)",
+        "1:00-2:00": null,
+        "2:00-3:00": "DSN4006-DAV (RK)",
+        "3:00-4:00": "DS4002-DSCS Tut DS2",
+        "4:00-5:00": "DS4002-DSCS Tut DS2"
+      },
+      "Thursday": {
+        "8:00-9:00": null,
+        "9:00-10:00": null,
+        "10:00-11:00": "DSN4002-DSCS (SR)",
+        "11:00-12:00": "DSN4005-DSML (PS)",
+        "12:00-1:00": "DSM1002 (VAI)",
+        "1:00-2:00": null,
+        "2:00-3:00": "DSN4003-AI (SHA)",
+        "3:00-4:00": "DSN4005-DSML Lab DS1+DS3",
+        "4:00-5:00": "DSN4005-DSML Lab DS1+DS3"
+      },
+      "Friday": {
+        "8:00-9:00": "DSM1002 (VAI)",
+        "9:00-10:00": "DSN4001-STDS (NK)",
+        "10:00-11:00": "DSN4005-DSML (PS)",
+        "11:00-12:00": "DSN4002-DSCS (SR)",
+        "12:00-1:00": "DSN4004-DBMS (SK)",
+        "1:00-2:00": null,
+        "2:00-3:00": "DSN4006-DAV (RK)",
+        "3:00-4:00": "ES2301 LAB T2 AI VLSI",
+        "4:00-5:00": "ES2301 LAB T2 AI VLSI"
+      }
+    }
+  },
+  {
+    "venue": "L19",
+    "type": "Lecture Hall",
+    "schedule": {
+      "Monday": {
+        "8:00-9:00": null,
+        "9:00-10:00": "AIN4002-DAV (RK)",
+        "10:00-11:00": "AIN-4003 SE RB",
+        "11:00-12:00": "AIN4004-MDS (SK)",
+        "12:00-1:00": "AIN4005-AI KG",
+        "1:00-2:00": null,
+        "2:00-3:00": "AIN4006-DEFA (RS)",
+        "3:00-5:00": "AIM1002 LAB (NEE/PAR)"
+      },
+      "Tuesday": {
+        "8:00-9:00": null,
+        "9:00-10:00": null,
+        "10:00-11:00": "AIN-4003 SE RB",
+        "11:00-12:00": "AIN4006-DEFA (RS)",
+        "12:00-1:00": "AIN4005-AI KG",
+        "1:00-2:00": null,
+        "2:00-3:00": null,
+        "3:00-4:00": null,
+        "4:00-5:00": "AIM1002 (NEE)"
+      },
+      "Wednesday": {
+        "8:00-9:00": "AIM1002 NEE/PAR",
+        "9:00-10:00": "AIM1002 NEE/PAR",
+        "10:00-11:00": null,
+        "11:00-12:00": "AIN-4003 SE RB",
+        "12:00-1:00": "AIN4004-MDS (SK)",
+        "1:00-2:00": null,
+        "2:00-3:00": "AIN4005-AI (KG)",
+        "3:00-4:00": "CSN4001-DAA labs CSE4+CSE5+CSE6 (MG)",
+        "4:00-5:00": "CSN4001-DAA labs CSE4+CSE5+CSE6 (MG)"
+      },
+      "Thursday": {
+        "8:00-9:00": null,
+        "9:00-10:00": null,
+        "10:00-11:00": "AIN-4003 SE RB",
+        "11:00-12:00": "AIN4002-DAV (RK)",
+        "12:00-1:00": "AIM1002 NEE",
+        "1:00-2:00": null,
+        "2:00-3:00": null,
+        "3:00-4:00": "CSN4001-DAA labs CSE1+CSE2+CSE3 (MG)",
+        "4:00-5:00": "CSN4001-DAA labs CSE1+CSE2+CSE3 (MG)"
+      },
+      "Friday": {
+        "8:00-9:00": "AIM1002 (NEE)",
+        "9:00-10:00": null,
+        "10:00-11:00": "AIN4006-DEFA (RS)",
+        "11:00-12:00": "AIN4004-MDS (SK)",
+        "12:00-1:00": "AIN4002-DAV (RK)",
+        "1:00-2:00": null,
+        "2:00-3:00": null,
+        "3:00-4:00": null,
+        "4:00-5:00": null
+      }
+    }
+  },
+  {
+    "venue": "Lab 301",
+    "type": "Laboratory",
+    "schedule": {
+      "Monday": {
+        "8:00-9:00": null,
+        "9:00-10:00": "CSN4005-IoT CSE1 (DB/VISH/SH/SAN)",
+        "10:00-11:00": "CSN4005-IoT CSE1 (DB/VISH/SH/SAN)",
+        "11:00-12:00": null,
+        "12:00-1:00": null,
+        "1:00-2:00": null,
+        "2:00-3:00": "CSO1001-WT (LAB) (MK)",
+        "3:00-4:00": "CSO1001-WT (LAB) (MK)",
+        "4:00-5:00": null
+      },
+      "Tuesday": {
+        "8:00-9:00": null,
+        "9:00-10:00": null,
+        "10:00-11:00": null,
+        "11:00-12:00": null,
+        "12:00-1:00": null,
+        "1:00-2:00": null,
+        "2:00-3:00": "AIN4002-DeFA Lab (RS) G2",
+        "3:00-4:00": "AIN4002-DeFA Lab (RS) G2",
+        "4:00-5:00": null
+      },
+      "Wednesday": {
+        "8:00-9:00": null,
+        "9:00-10:00": "CSN4006-AI G1 CSE1 (RS/JAT)",
+        "10:00-11:00": "CSN4006-AI G1 CSE1 (RS/JAT)",
+        "11:00-12:00": null,
+        "12:00-1:00": null,
+        "1:00-2:00": null,
+        "2:00-3:00": null,
+        "3:00-4:00": "CS2807/CS4803-Recommender Systems (SV) Lab",
+        "4:00-5:00": "CS2807/CS4803-Recommender Systems (SV) Lab"
+      },
+      "Thursday": {
+        "8:00-9:00": null,
+        "9:00-10:00": "DS2803-Recommender Systems (SV/SHIV+PAV) Lab",
+        "10:00-11:00": "DS2803-Recommender Systems (SV/SHIV+PAV) Lab",
+        "11:00-12:00": null,
+        "12:00-1:00": null,
+        "1:00-2:00": null,
+        "2:00-3:00": null,
+        "3:00-4:00": "CSR1105-STT lab Prof. Neeraj/NIR",
+        "4:00-5:00": "CSR1105-STT lab Prof. Neeraj/NIR"
+      },
+      "Friday": {
+        "8:00-9:00": null,
+        "9:00-10:00": null,
+        "10:00-11:00": null,
+        "11:00-12:00": null,
+        "12:00-1:00": null,
+        "1:00-2:00": null,
+        "2:00-3:00": null,
+        "3:00-4:00": "CSN4005-IoT (SH) lab CSE4+5+6",
+        "4:00-5:00": "CSN4005-IoT (SH) lab CSE4+5+6"
+      }
+    }
+  },
+  {
+    "venue": "Lab 303",
+    "type": "Laboratory",
+    "schedule": {
+      "Monday": {
+        "8:00-9:00": null,
+        "9:00-10:00": "CSN4006-AI G1 (RS) CSE2+CSE3",
+        "10:00-11:00": "CSN4006-AI G1 (RS) CSE2+CSE3",
+        "11:00-12:00": null,
+        "12:00-1:00": null,
+        "1:00-2:00": null,
+        "2:00-3:00": "CSO1001-WT (LAB) (MK)",
+        "3:00-4:00": "CSO1001-WT (LAB) (MK)",
+        "4:00-5:00": null
+      },
+      "Tuesday": {
+        "8:00-9:00": null,
+        "9:00-10:00": null,
+        "10:00-11:00": null,
+        "11:00-12:00": null,
+        "12:00-1:00": null,
+        "1:00-2:00": null,
+        "2:00-3:00": "AIN4001-OS (SS) Lab G1",
+        "3:00-4:00": "AIN4001-OS (SS) Lab G1",
+        "4:00-5:00": null
+      },
+      "Wednesday": {
+        "8:00-9:00": "AIN4003-SE Lab G1+G2",
+        "9:00-10:00": "AIN4003-SE Lab G1+G2",
+        "10:00-11:00": null,
+        "11:00-12:00": null,
+        "12:00-1:00": null,
+        "1:00-2:00": null,
+        "2:00-3:00": null,
+        "3:00-4:00": "CS2807/CS4803-Recommender Systems (SV) Lab",
+        "4:00-5:00": "CS2807/CS4803-Recommender Systems (SV) Lab"
+      },
+      "Thursday": {
+        "8:00-9:00": null,
+        "9:00-10:00": "DS2803-Recommender Systems (SV/SHIV+PAV) Lab",
+        "10:00-11:00": "DS2803-Recommender Systems (SV/SHIV+PAV) Lab",
+        "11:00-12:00": null,
+        "12:00-1:00": null,
+        "1:00-2:00": null,
+        "2:00-3:00": null,
+        "3:00-4:00": null,
+        "4:00-5:00": null
+      },
+      "Friday": {
+        "8:00-9:00": null,
+        "9:00-10:00": null,
+        "10:00-11:00": null,
+        "11:00-12:00": null,
+        "12:00-1:00": null,
+        "1:00-2:00": null,
+        "2:00-3:00": null,
+        "3:00-4:00": "CSN4005-IoT (SH) lab CSE4+5+6",
+        "4:00-5:00": "CSN4005-IoT (SH) lab CSE4+5+6"
+      }
+    }
+  },
+  {
+  "venue": "Lab 304",
+  "type": "Laboratory",
+  "schedule": {
+    "Monday": {
+      "8:00-9:00": "ES2301 LAB F3 ECE (MD/KAN+PAVK)",
+      "9:00-10:00": "ES2301 LAB F3 ECE (MD/KAN+PAVK)",
+      "10:00-11:00": null,
+      "11:00-12:00": null,
+      "12:00-1:00": null,
+      "1:00-2:00": null,
+      "2:00-3:00": null,
+      "3:00-4:00": "DSM1002 Lab (VAI/PAVK)",
+      "4:00-5:00": "DSM1002 Lab (VAI/PAVK)"
+    },
+    "Tuesday": {
+      "8:00-9:00": "CS6801 Operating Systems Lab (MK/ANM+AK/SAT+VISH)",
+      "9:00-10:00": "CS6801 Operating Systems Lab (MK/ANM+AK/SAT+VISH)",
+      "10:00-11:00": null,
+      "11:00-12:00": null,
+      "12:00-1:00": null,
+      "1:00-2:00": null,
+      "2:00-3:00": "DSN4004 DBMS Lab DS1+DS2 (SK/DIW+KAN/DIV)",
+      "3:00-4:00": "DSN4004 DBMS Lab DS1+DS2 (SK/DIW+KAN/DIV)",
+      "4:00-5:00": null
+    },
+    "Wednesday": {
+      "8:00-9:00": "DSN4006 DAV Lab (RK)",
+      "9:00-10:00": "DSN4006 DAV Lab (RK)",
+      "10:00-11:00": null,
+      "11:00-12:00": null,
+      "12:00-1:00": null,
+      "1:00-2:00": null,
+      "2:00-3:00": null,
+      "3:00-4:00": "CS2802/CS4801 Computer Vision Lab (NK)",
+      "4:00-5:00": "CS2802/CS4801 Computer Vision Lab (NK)"
+    },
+    "Thursday": {
+      "8:00-9:00": "DSN4004 DBMS Lab DS3 (KAN/SK/DIV)",
+      "9:00-10:00": "DSN4004 DBMS Lab DS3 (KAN/SK/DIV)",
+      "10:00-11:00": "ES2301 LAB F1 MECH (SK/HARD+MD/SABH)",
+      "11:00-12:00": "ES2301 LAB F1 MECH (SK/HARD+MD/SABH)",
+      "12:00-1:00": null,
+      "1:00-2:00": "ES2301 LAB F1 ECE (Atul+PAV/AP)",
+      "2:00-3:00": "ES2301 LAB F1 ECE (Atul+PAV/AP)",
+      "3:00-4:00": "ES2301 LAB T1 METTA (MD/RM)",
+      "4:00-5:00": "ES2301 LAB T1 METTA (MD/RM)"
+    },
+    "Friday": {
+      "8:00-9:00": "AIN4005 AI Lab (SAC+KG/ANM)",
+      "9:00-10:00": "AIN4005 AI Lab (SAC+KG/ANM)",
+      "10:00-11:00": "ES2301 LAB T1 AI VLSI (SHIW/DIV+SABH/KG)",
+      "11:00-12:00": "ES2301 LAB T1 AI VLSI (SHIW/DIV+SABH/KG)",
+      "12:00-1:00": null,
+      "1:00-2:00": null,
+      "2:00-3:00": null,
+      "3:00-4:00": null,
+      "4:00-5:00": null
+    }
+  }
+ },
+  {
+  "venue": "Lab 306",
+  "type": "Laboratory",
+  "schedule": {
+    "Monday": {
+      "8:00-9:00": "ES2301 LAB F3 ECE (MD/KAN+PAVK)",
+      "9:00-10:00": "ES2301 LAB F3 ECE (MD/KAN+PAVK)",
+      "10:00-11:00": "ES2301 LAB T2 METTA (MG/UTM/AK)",
+      "11:00-12:00": "ES2301 LAB T2 METTA (MG/UTM/AK)",
+      "12:00-1:00": null,
+      "1:00-2:00": null,
+      "2:00-3:00": null,
+      "3:00-4:00": "CSM1002-CN LAB (AK/ANM/AD)",
+      "4:00-5:00": "CSM1002-CN LAB (AK/ANM/AD)"
+    },
+    "Tuesday": {
+      "8:00-9:00": "CS6801 Operating Systems Lab (MK/ANM+AK/SAT+VISH)",
+      "9:00-10:00": "CS6801 Operating Systems Lab (MK/ANM+AK/SAT+VISH)",
+      "10:00-11:00": null,
+      "11:00-12:00": null,
+      "12:00-1:00": null,
+      "1:00-2:00": null,
+      "2:00-3:00": "DSN4003 AI DS3 (SHA)",
+      "3:00-4:00": "DSN4003 AI DS3 (SHA)",
+      "4:00-5:00": null
+    },
+    "Wednesday": {
+      "8:00-9:00": "DSN4006 DAV Lab (RK)",
+      "9:00-10:00": "DSN4006 DAV Lab (RK)",
+      "10:00-11:00": null,
+      "11:00-12:00": null,
+      "12:00-1:00": null,
+      "1:00-2:00": null,
+      "2:00-3:00": null,
+      "3:00-4:00": "CS2802/CS4801 Computer Vision Lab (NK)",
+      "4:00-5:00": "CS2802/CS4801 Computer Vision Lab (NK)"
+    },
+    "Thursday": {
+      "8:00-9:00": null,
+      "9:00-10:00": null,
+      "10:00-11:00": "ES2301 LAB F1 MECH (SK/HARD+MD/SABH)",
+      "11:00-12:00": "ES2301 LAB F1 MECH (SK/HARD+MD/SABH)",
+      "12:00-1:00": null,
+      "1:00-2:00": "ES2301 LAB F1 ECE (Atul+PAV/AP)",
+      "2:00-3:00": "ES2301 LAB F1 ECE (Atul+PAV/AP)",
+      "3:00-4:00": "AIN4002-DeFA Lab G1 (RS/MAG)",
+      "4:00-5:00": "AIN4002-DeFA Lab G1 (RS/MAG)"
+    },
+    "Friday": {
+      "8:00-9:00": "AIN4005 AI Lab (SAC+KG/ANM)",
+      "9:00-10:00": "AIN4005 AI Lab (SAC+KG/ANM)",
+      "10:00-11:00": "ES2301 LAB T1 AI VLSI (SHIW/DIV+SABH/KG)",
+      "11:00-12:00": "ES2301 LAB T1 AI VLSI (SHIW/DIV+SABH/KG)",
+      "12:00-1:00": null,
+      "1:00-2:00": null,
+      "2:00-3:00": null,
+      "3:00-4:00": null,
+      "4:00-5:00": null
+    }
+  }
+},
+  {
+  "venue": "Lab 307",
+  "type": "Laboratory",
+  "schedule": {
+    "Monday": {
+      "8:00-9:00": null,
+      "9:00-10:00": "CSN4006-AI G1 (RS) CSE2+CSE3",
+      "10:00-11:00": "CSN4006-AI G1 (RS) CSE2+CSE3",
+      "11:00-12:00": null,
+      "12:00-1:00": null,
+      "1:00-2:00": null,
+      "2:00-3:00": null,
+      "3:00-4:00": "CSM1002-CN LAB (AK/ANM/AD)",
+      "4:00-5:00": "CSM1002-CN LAB (AK/ANM/AD)"
+    },
+    "Tuesday": {
+      "8:00-9:00": "CS6801 Operating Systems Lab (MK/ANM+AK/SAT+VISH)",
+      "9:00-10:00": "CS6801 Operating Systems Lab (MK/ANM+AK/SAT+VISH)",
+      "10:00-11:00": null,
+      "11:00-12:00": null,
+      "12:00-1:00": null,
+      "1:00-2:00": null,
+      "2:00-3:00": "DSN4004 DBMS Lab DS1+DS2 (SK/DIW+KAN/DIV)",
+      "3:00-4:00": "DSN4004 DBMS Lab DS1+DS2 (SK/DIW+KAN/DIV)",
+      "4:00-5:00": null
+    },
+    "Wednesday": {
+      "8:00-9:00": "DSN4006 DAV Lab (RK)",
+      "9:00-10:00": "DSN4006 DAV Lab (RK)",
+      "10:00-11:00": null,
+      "11:00-12:00": null,
+      "12:00-1:00": null,
+      "1:00-2:00": null,
+      "2:00-3:00": null,
+      "3:00-4:00": "CS2802/CS4801 Computer Vision Lab (NK)",
+      "4:00-5:00": "CS2802/CS4801 Computer Vision Lab (NK)"
+    },
+    "Thursday": {
+      "8:00-9:00": null,
+      "9:00-10:00": null,
+      "10:00-11:00": null,
+      "11:00-12:00": null,
+      "12:00-1:00": null,
+      "1:00-2:00": null,
+      "2:00-3:00": null,
+      "3:00-4:00": "DSN4003-AI Lab DS2 (SHA/Atul Kumar)",
+      "4:00-5:00": "DSN4003-AI Lab DS2 (SHA/Atul Kumar)"
+    },
+    "Friday": {
+      "8:00-9:00": null,
+      "9:00-10:00": null,
+      "10:00-11:00": null,
+      "11:00-12:00": null,
+      "12:00-1:00": null,
+      "1:00-2:00": null,
+      "2:00-3:00": null,
+      "3:00-4:00": "CSN4005-IoT (SH) Lab CSE4+CSE5+CSE6",
+      "4:00-5:00": "CSN4005-IoT (SH) Lab CSE4+CSE5+CSE6"
+    }
+  }
+},
+  {
+  "venue": "Lab CL5",
+  "type": "Laboratory",
+  "schedule": {
+    "Monday": {
+      "8:00-9:00": null,
+      "9:00-10:00": null,
+      "10:00-11:00": null,
+      "11:00-12:00": null,
+      "12:00-1:00": null,
+      "1:00-2:00": null,
+      "2:00-3:00": null,
+      "3:00-4:00": "CSR1104-DHPC Lab (PS/DIW)",
+      "4:00-5:00": "CSR1104-DHPC Lab (PS/DIW)"
+    },
+    "Tuesday": {
+      "8:00-9:00": null,
+      "9:00-10:00": "DSN4003/DSN403-AI Lab DS1 (SHA)",
+      "10:00-11:00": "DSN4003/DSN403-AI Lab DS1 (SHA)",
+      "11:00-12:00": null,
+      "12:00-1:00": null,
+      "1:00-2:00": null,
+      "2:00-3:00": "CSN4003-CN Lab CSE4+CSE5+CSE6",
+      "3:00-4:00": "CSN4003-CN Lab CSE4+CSE5+CSE6",
+      "4:00-5:00": null
+    },
+    "Wednesday": {
+      "8:00-9:00": "AIN4003-SE Lab G1+G2",
+      "9:00-10:00": "AIN4003-SE Lab G1+G2",
+      "10:00-11:00": null,
+      "11:00-12:00": null,
+      "12:00-1:00": null,
+      "1:00-2:00": null,
+      "2:00-3:00": null,
+      "3:00-4:00": "CSR3003-ML Lab (SHA/Atul Kumar)",
+      "4:00-5:00": "CSR3003-ML Lab (SHA/Atul Kumar)"
+    },
+    "Thursday": {
+      "8:00-9:00": null,
+      "9:00-10:00": null,
+      "10:00-11:00": null,
+      "11:00-12:00": null,
+      "12:00-1:00": null,
+      "1:00-2:00": null,
+      "2:00-3:00": null,
+      "3:00-4:00": null,
+      "4:00-5:00": null
+    },
+    "Friday": {
+      "8:00-9:00": null,
+      "9:00-10:00": "CSR1257 AML Lab (SR/VISH)",
+      "10:00-11:00": "CSR1257 AML Lab (SR/VISH)",
+      "11:00-12:00": null,
+      "12:00-1:00": null,
+      "1:00-2:00": null,
+      "2:00-3:00": null,
+      "3:00-4:00": "CSN4003-CN Lab CSE1+CSE2+CSE3",
+      "4:00-5:00": "CSN4003-CN Lab CSE1+CSE2+CSE3"
+    }
+  }
+},
+  {
+  "venue": "Lab CL13",
+  "type": "Laboratory",
+  "schedule": {
+    "Monday": {
+      "8:00-9:00": null,
+      "9:00-10:00": null,
+      "10:00-11:00": null,
+      "11:00-12:00": null,
+      "12:00-1:00": null,
+      "1:00-2:00": null,
+      "2:00-3:00": null,
+      "3:00-4:00": null,
+      "4:00-5:00": null
+    },
+    "Tuesday": {
+      "8:00-9:00": null,
+      "9:00-10:00": "DSN4001-STDS Lab DS3 (NK/DIW)",
+      "10:00-11:00": "DSN4001-STDS Lab DS3 (NK/DIW)",
+      "11:00-12:00": null,
+      "12:00-1:00": null,
+      "1:00-2:00": null,
+      "2:00-3:00": "CSN4003-CN Lab CSE4+CSE5+CSE6",
+      "3:00-4:00": "CSN4003-CN Lab CSE4+CSE5+CSE6",
+      "4:00-5:00": null
+    },
+    "Wednesday": {
+      "8:00-9:00": null,
+      "9:00-10:00": null,
+      "10:00-11:00": null,
+      "11:00-12:00": null,
+      "12:00-1:00": null,
+      "1:00-2:00": null,
+      "2:00-3:00": null,
+      "3:00-4:00": "CSN4001-DAA Labs CSE4+CSE5+CSE6 (MG)",
+      "4:00-5:00": "CSN4001-DAA Labs CSE4+CSE5+CSE6 (MG)"
+    },
+    "Thursday": {
+      "8:00-9:00": "AIN4004-MDS Lab (SU/DIW+Atul)",
+      "9:00-10:00": "AIN4004-MDS Lab (SU/DIW+Atul)",
+      "10:00-11:00": null,
+      "11:00-12:00": null,
+      "12:00-1:00": null,
+      "1:00-2:00": null,
+      "2:00-3:00": null,
+      "3:00-4:00": "CSN4001-DAA Labs CSE1+CSE2+CSE3 (MG)",
+      "4:00-5:00": "CSN4001-DAA Labs CSE1+CSE2+CSE3 (MG)"
+    },
+    "Friday": {
+      "8:00-9:00": null,
+      "9:00-10:00": null,
+      "10:00-11:00": null,
+      "11:00-12:00": null,
+      "12:00-1:00": null,
+      "1:00-2:00": null,
+      "2:00-3:00": null,
+      "3:00-4:00": "CSN4003-CN Lab CSE1+CSE2+CSE3",
+      "4:00-5:00": "CSN4003-CN Lab CSE1+CSE2+CSE3"
+    }
+  }
+},
+  {
+  "venue": "Lab CL14",
+  "type": "Laboratory",
+  "schedule": {
+    "Monday": {
+      "8:00-9:00": null,
+      "9:00-10:00": null,
+      "10:00-11:00": null,
+      "11:00-12:00": null,
+      "12:00-1:00": null,
+      "1:00-2:00": null,
+      "2:00-3:00": null,
+      "3:00-4:00": null,
+      "4:00-5:00": null
+    },
+    "Tuesday": {
+      "8:00-9:00": null,
+      "9:00-10:00": "DSN4005-DSML Lab DS2 (PS/JAT/AP)",
+      "10:00-11:00": "DSN4005-DSML Lab DS2 (PS/JAT/AP)",
+      "11:00-12:00": null,
+      "12:00-1:00": null,
+      "1:00-2:00": null,
+      "2:00-3:00": "CSN4003-CN Lab CSE4+CSE5+CSE6",
+      "3:00-4:00": "CSN4003-CN Lab CSE4+CSE5+CSE6",
+      "4:00-5:00": null
+    },
+    "Wednesday": {
+      "8:00-9:00": "AIN4002-DAV Lab (KG/NIR+ISD)",
+      "9:00-10:00": "AIN4002-DAV Lab (KG/NIR+ISD)",
+      "10:00-11:00": null,
+      "11:00-12:00": null,
+      "12:00-1:00": null,
+      "1:00-2:00": null,
+      "2:00-3:00": null,
+      "3:00-4:00": "CSN4001-DAA Labs CSE4+CSE5+CSE6 (MG)",
+      "4:00-5:00": "CSN4001-DAA Labs CSE4+CSE5+CSE6 (MG)"
+    },
+    "Thursday": {
+      "8:00-9:00": "AIN4004-MDS Lab (SU/DIW+Atul)",
+      "9:00-10:00": "AIN4004-MDS Lab (SU/DIW+Atul)",
+      "10:00-11:00": null,
+      "11:00-12:00": null,
+      "12:00-1:00": null,
+      "1:00-2:00": null,
+      "2:00-3:00": null,
+      "3:00-4:00": "CSN4001-DAA Labs CSE1+CSE2+CSE3 (MG)",
+      "4:00-5:00": "CSN4001-DAA Labs CSE1+CSE2+CSE3 (MG)"
+    },
+    "Friday": {
+      "8:00-9:00": null,
+      "9:00-10:00": null,
+      "10:00-11:00": null,
+      "11:00-12:00": null,
+      "12:00-1:00": null,
+      "1:00-2:00": null,
+      "2:00-3:00": null,
+      "3:00-4:00": "CSN4003-CN Lab CSE1+CSE2+CSE3",
+      "4:00-5:00": "CSN4003-CN Lab CSE1+CSE2+CSE3"
+    }
+  }
+},
+  {
+  "venue": "Data Science Lab",
+  "type": "Laboratory",
+  "schedule": {
+    "Monday": {
+      "8:00-9:00": null,
+      "9:00-10:00": "CSN4002-OS Lab CSE4+CSE5+CSE6 (SS+AD)",
+      "10:00-11:00": "CSN4002-OS Lab CSE4+CSE5+CSE6 (SS+AD)",
+      "11:00-12:00": null,
+      "12:00-1:00": null,
+      "1:00-2:00": null,
+      "2:00-3:00": null,
+      "3:00-4:00": "ES2301 LAB F3 MECH (MG/RM/ANS)",
+      "4:00-5:00": "ES2301 LAB F3 MECH (MG/RM/ANS)"
+    },
+    "Tuesday": {
+      "8:00-9:00": "AIN4002-DAV Lab (RK/NIR+ISD)",
+      "9:00-10:00": "AIN4002-DAV Lab (RK/NIR+ISD)",
+      "10:00-11:00": "ES2301 MECH LAB F2 (HARD+SABH+SHIW)",
+      "11:00-12:00": "ES2301 MECH LAB F2 (HARD+SABH+SHIW)",
+      "12:00-1:00": null,
+      "1:00-2:00": null,
+      "2:00-3:00": "CSN4002-OS Lab CSE1+CSE2+CSE3+AI G1 (SS/AD)",
+      "3:00-4:00": "CSN4002-OS Lab CSE1+CSE2+CSE3+AI G1 (SS/AD)",
+      "4:00-5:00": null
+    },
+    "Wednesday": {
+      "8:00-9:00": null,
+      "9:00-10:00": "CSN4005-IoT G2 Lab (SH) CSE2+CSE3",
+      "10:00-11:00": "CSN4005-IoT G2 Lab (SH) CSE2+CSE3",
+      "11:00-12:00": "CSE1001/AIE1001/DSE1001-WT LAB G2 (MK)",
+      "12:00-1:00": "CSE1001/AIE1001/DSE1001-WT LAB G2 (MK)",
+      "1:00-2:00": null,
+      "2:00-3:00": null,
+      "3:00-4:00": "CSE1001/AIE1001/DSE1001-WT LAB G1 (MK)",
+      "4:00-5:00": "CSE1001/AIE1001/DSE1001-WT LAB G1 (MK)"
+    },
+    "Thursday": {
+      "8:00-9:00": null,
+      "9:00-10:00": null,
+      "10:00-11:00": null,
+      "11:00-12:00": "CSE1001/AIE1001/DSE1001-WT LAB G3 (MK)",
+      "12:00-1:00": "CSE1001/AIE1001/DSE1001-WT LAB G3 (MK)",
+      "1:00-2:00": null,
+      "2:00-3:00": null,
+      "3:00-4:00": "CSN4006-AI Lab CSE4+CSE5+CSE6 (KG)",
+      "4:00-5:00": "CSN4006-AI Lab CSE4+CSE5+CSE6 (KG)"
+    },
+    "Friday": {
+      "8:00-9:00": null,
+      "9:00-10:00": null,
+      "10:00-11:00": "CS6801 Operating Systems Lab (AK/SU/SAT/AD)",
+      "11:00-12:00": "CS6801 Operating Systems Lab (AK/SU/SAT/AD)",
+      "12:00-1:00": null,
+      "1:00-2:00": null,
+      "2:00-3:00": null,
+      "3:00-4:00": "DSN4001-STDS Lab DS1+DS2 (NK/SAC/Neeraj)",
+      "4:00-5:00": "DSN4001-STDS Lab DS1+DS2 (NK/SAC/Neeraj)"
+    }
+  }
+}
+]

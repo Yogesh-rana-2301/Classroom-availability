@@ -12,6 +12,7 @@ Use these files to track implementation status by area.
 ## Area Files
 
 - [Frontend Tasks](frontend.md)
+- [UI Architecture & Design Improvement Tasks](ui-architecture.md)
 - [Backend Tasks](backend.md)
 - [Database Tasks](database.md)
 - [Deployment & DevOps Tasks](deployment.md)
