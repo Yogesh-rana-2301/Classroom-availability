@@ -125,7 +125,29 @@ From `backend`:
 ```bash
 npm run start            # Run backend without nodemon
 npm run prisma:push      # Push schema directly (no migration files)
+npm run test:api:mvp     # Run MVP API regression scaffold tests
 ```
+
+## API Regression Scaffold
+
+From `backend`, run:
+
+```bash
+npm run test:api:mvp
+```
+
+Prerequisites:
+
+- PostgreSQL is running (`docker compose up -d`).
+- Prisma schema is pushed (`npm run prisma:push`).
+- Seed data exists (`npm run prisma:seed`).
+
+The scaffold validates:
+
+- Health endpoint response
+- Auth success and failure flows
+- Protected route `401` / role-based `403`
+- Core booking create and overlap conflict behavior
 
 From `frontend`:
 
