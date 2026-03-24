@@ -14,3 +14,8 @@ export async function toggleClassroomMaintenance(classroomId, isMaintenance) {
   );
   return data.data;
 }
+
+export async function fetchAdminAuditLogs(params = {}) {
+  const { data } = await api.get("/admin/audit-logs", { params });
+  return data.data;
+}

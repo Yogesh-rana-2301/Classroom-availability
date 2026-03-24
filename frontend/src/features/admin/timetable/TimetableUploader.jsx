@@ -1,4 +1,6 @@
 import { useMemo, useState } from "react";
+import FormErrorSummary from "../../../shared/feedback/FormErrorSummary";
+import { validateTimetableImportPayload } from "../../../shared/forms/validators";
 
 const samplePayload = {
   academic_year: "2025-2026",
@@ -25,7 +27,7 @@ export default function TimetableUploader({ onUpload, isLoading = false }) {
   const [jsonValue, setJsonValue] = useState(
     JSON.stringify(samplePayload, null, 2),
   );
-  const [parseError, setParseError] = useState("");
+  const [errors, setErrors] = useState({});
 
   const prettyTemplate = useMemo(
     () => JSON.stringify(samplePayload, null, 2),
@@ -41,9 +43,9 @@ export default function TimetableUploader({ onUpload, isLoading = false }) {
       const text = await file.text();
       JSON.parse(text);
       setJsonValue(text);
-      setParseError("");
+      setErrors({});
     } catch (_error) {
-      setParseError("Selected file does not contain valid JSON.");
+      setErrors({ payload: "Selected file does not contain valid JSON." });
     }
   }
 
@@ -52,10 +54,19 @@ export default function TimetableUploader({ onUpload, isLoading = false }) {
 
     try {
       const payload = JSON.parse(jsonValue);
-      setParseError("");
+      const validation = validateTimetableImportPayload(payload);
+
+      if (!validation.valid) {
+        setErrors(validation.errors);
+        return;
+      }
+
+      setErrors({});
       onUpload(payload);
     } catch (_error) {
-      setParseError("JSON is invalid. Please fix syntax before importing.");
+      setErrors({
+        payload: "JSON is invalid. Please fix syntax before importing.",
+      });
     }
   }
 
@@ -79,7 +90,7 @@ export default function TimetableUploader({ onUpload, isLoading = false }) {
             type="button"
             onClick={() => {
               setJsonValue(prettyTemplate);
-              setParseError("");
+              setErrors({});
             }}
             disabled={isLoading}
           >
@@ -92,18 +103,21 @@ export default function TimetableUploader({ onUpload, isLoading = false }) {
           <textarea
             className="timetable-json-input"
             value={jsonValue}
-            onChange={(event) => setJsonValue(event.target.value)}
+            onChange={(event) => {
+              setJsonValue(event.target.value);
+              setErrors((current) => ({
+                ...current,
+                payload: undefined,
+                schedule: undefined,
+              }));
+            }}
             rows={18}
             spellCheck={false}
             disabled={isLoading}
           />
         </label>
 
-        {parseError ? (
-          <p className="status-error" role="alert">
-            {parseError}
-          </p>
-        ) : null}
+        <FormErrorSummary errors={errors} title="Import blocked:" />
 
         <button type="submit" disabled={isLoading}>
           {isLoading ? "Importing..." : "Import Timetable"}

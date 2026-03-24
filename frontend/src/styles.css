@@ -17,6 +17,52 @@ body {
   padding: 2rem;
 }
 
+.app-header {
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+}
+
+.app-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.app-nav-link {
+  border: 1px solid #d1d5db;
+  border-radius: 999px;
+  color: #334155;
+  font-size: 0.88rem;
+  padding: 0.38rem 0.72rem;
+  text-decoration: none;
+}
+
+.app-nav-link-active {
+  background: #1d4ed8;
+  border-color: #1d4ed8;
+  color: #ffffff;
+}
+
+.app-user-menu {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.app-user-menu span {
+  color: #475569;
+  font-size: 0.85rem;
+}
+
 .page {
   background: #ffffff;
   border: 1px solid #e5e7eb;
@@ -126,6 +172,37 @@ thead th {
 
 .status-error {
   color: #b91c1c;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.field-error {
+  color: #b91c1c;
+  font-size: 0.82rem;
+  margin: 0;
+}
+
+.form-error-summary {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  color: #991b1b;
+  margin: 0 0 0.75rem;
+  padding: 0.6rem 0.7rem;
+}
+
+.form-error-summary p {
+  font-weight: 600;
+  margin: 0 0 0.25rem;
+}
+
+.form-error-summary ul {
+  margin: 0;
+  padding-left: 1rem;
 }
 
 .room-availability-page {
@@ -389,6 +466,59 @@ thead th {
   gap: 0.5rem;
 }
 
+.admin-audit-page {
+  max-width: 1200px;
+}
+
+.admin-audit-toolbar {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  margin: 1rem 0;
+}
+
+.admin-audit-toolbar label {
+  color: #374151;
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+  gap: 0.35rem;
+}
+
+.admin-audit-toolbar-actions {
+  align-items: flex-end;
+  display: flex;
+}
+
+.admin-audit-table-wrap {
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  overflow-x: auto;
+}
+
+.audit-metadata {
+  font-family: "Courier New", Courier, monospace;
+  max-width: 360px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.admin-audit-pagination {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.admin-audit-pagination p {
+  margin: 0;
+}
+
+.admin-audit-pagination-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
 .availability-available {
   background: #f8fafc;
 }
@@ -408,6 +538,11 @@ thead th {
 @media (max-width: 680px) {
   .app-shell {
     padding: 1rem;
+  }
+
+  .app-header {
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .classrooms-pagination {
@@ -438,6 +573,12 @@ thead th {
   }
 
   .admin-maintenance-pagination {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .admin-audit-pagination {
     align-items: flex-start;
     flex-direction: column;
     gap: 0.65rem;

@@ -15,16 +15,16 @@
 - [x] Implement my bookings page with cancel action
 - [x] Implement admin timetable import UI
 - [x] Implement maintenance toggle UI per room
+- [x] Implement admin audit logs table with filters
+- [x] Add role-based navigation visibility
+- [x] Add form validation and reusable error components
 
 ## In Progress
 
-- [~] Implement admin audit logs table with filters
+- [~] Add frontend environment setup notes in README
 
 ## To Do
 
-- [ ] Implement admin audit logs table with filters
-- [ ] Add role-based navigation visibility
-- [ ] Add form validation and reusable error components
 - [ ] Add frontend environment setup notes in README
 
 ## Done Criteria
