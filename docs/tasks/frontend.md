@@ -18,14 +18,15 @@
 - [x] Implement admin audit logs table with filters
 - [x] Add role-based navigation visibility
 - [x] Add form validation and reusable error components
+- [x] Add frontend environment setup notes in README
 
 ## In Progress
 
-- [~] Add frontend environment setup notes in README
+- [~] No open frontend tasks in this checklist
 
 ## To Do
 
-- [ ] Add frontend environment setup notes in README
+- [ ] No pending items in this checklist
 
 ## Done Criteria
 

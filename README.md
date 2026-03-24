@@ -151,7 +151,7 @@ npm install
 [Start command, e.g., npm run dev]
 
 # Frontend
-npm start
+npm run dev
 ```
 
 The application will be accessible at `http://localhost:[port]`.
@@ -160,25 +160,42 @@ The application will be accessible at `http://localhost:[port]`.
 
 ## Environment Variables
 
-Create a `.env` file in the backend root directory and populate the following:
+### Backend
+
+Create a `.env` file in the `backend` directory (you can copy from `backend/.env.example`) and populate the following:
 
 ```
-DB_HOST=[your-database-host]
-DB_PORT=[your-database-port]
-DB_NAME=[your-database-name]
-DB_USER=[your-database-username]
-DB_PASSWORD=[your-database-password]
-
-JWT_SECRET=[your-jwt-secret-key]
-JWT_EXPIRY=[token-expiry-duration]
-
-EMAIL_HOST=[smtp-host]
-EMAIL_PORT=[smtp-port]
-EMAIL_USER=[sender-email]
-EMAIL_PASSWORD=[email-password]
-
-PORT=[backend-port]
+PORT=4000
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/classroom_availability
+JWT_ACCESS_SECRET=replace-with-access-secret
+JWT_REFRESH_SECRET=replace-with-refresh-secret
+JWT_ACCESS_EXPIRES_IN=15m
+JWT_REFRESH_EXPIRES_IN=7d
+AUTH_MAX_REFRESH_SESSIONS=5
+FRONTEND_ORIGIN=http://localhost:5173
 ```
+
+### Frontend
+
+Create a `.env` file in the `frontend` directory (you can copy from `frontend/.env.example`):
+
+```bash
+cd frontend
+cp .env.example .env
+```
+
+Required frontend variable:
+
+```
+VITE_API_URL=http://localhost:4000/api/v1
+```
+
+Frontend environment notes:
+
+- Variable names must start with `VITE_` to be exposed to the Vite client bundle.
+- Keep `VITE_API_URL` pointed to your backend API base URL.
+- Backend CORS origin (`FRONTEND_ORIGIN` in backend env) should match your frontend dev URL, normally `http://localhost:5173`.
+- If cookies/session refresh stop working locally, verify frontend and backend ports/origins are consistent with the two variables above.
 
 ---
 
