@@ -8,10 +8,9 @@
 - [x] Booking uniqueness constraint added on room/date/time slot tuple
 - [x] Prisma seed script added with known dev users
 - [x] Sample classrooms and timetable slots included in seed
+- [x] Verify local DB availability and run full push + seed workflow
 
 ## In Progress
-
-- [~] Verify local DB availability and run full push + seed workflow
 
 ## To Do
 
