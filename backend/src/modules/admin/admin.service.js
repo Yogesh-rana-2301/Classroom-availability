@@ -117,7 +117,7 @@ export const adminService = {
           update: {},
           create: {
             roomCode,
-            building: "Imported",
+            building: "Computer Science and Engineering", // Default building, can be updated later
             capacity: 50,
             facilities: [],
           },
