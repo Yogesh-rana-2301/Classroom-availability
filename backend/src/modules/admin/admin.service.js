@@ -1,4 +1,9 @@
 import { prisma } from "../../config/db.js";
+import { randomUUID } from "node:crypto";
+import {
+  getUtcDayBounds,
+  parseDateOnlyUtc,
+} from "../../common/validators/dateOnly.js";
 
 const DAY_OF_WEEK_MAP = {
   monday: 1,
@@ -108,6 +113,8 @@ export const adminService = {
     }
 
     const roomCodes = [...new Set(records.map((record) => record.roomCode))];
+    const importBatchId = randomUUID();
+    const supersededAt = new Date();
 
     const result = await prisma.$transaction(async (tx) => {
       const upsertedClassrooms = [];
@@ -136,11 +143,17 @@ export const adminService = {
         (classroom) => classroom.id,
       );
 
-      await tx.timetableSlot.deleteMany({
+      const superseded = await tx.timetableSlot.updateMany({
         where: {
           classroomId: {
             in: importedClassroomIds,
           },
+          isActive: true,
+        },
+        data: {
+          isActive: false,
+          supersededAt,
+          supersededByBatchId: importBatchId,
         },
       });
 
@@ -152,6 +165,8 @@ export const adminService = {
           endTime: record.endTime,
           subject: record.subject,
           facultyName: record.facultyName,
+          isActive: true,
+          importBatchId,
         })),
       });
 
@@ -166,6 +181,8 @@ export const adminService = {
             academicYear: payload.academic_year || null,
             importedClassrooms: roomCodes.length,
             importedSlots: records.length,
+            supersededSlots: superseded.count,
+            importBatchId,
           },
         },
       });
@@ -173,6 +190,8 @@ export const adminService = {
       return {
         importedClassrooms: roomCodes.length,
         importedSlots: records.length,
+        supersededSlots: superseded.count,
+        importBatchId,
       };
     });
 
@@ -181,6 +200,8 @@ export const adminService = {
       payloadPreview: records.length,
       importedClassrooms: result.importedClassrooms,
       importedSlots: result.importedSlots,
+      supersededSlots: result.supersededSlots,
+      importBatchId: result.importBatchId,
     };
   },
 
@@ -190,6 +211,7 @@ export const adminService = {
     const skip = (page - 1) * pageSize;
 
     const where = {
+      ...(query.includeHistory ? {} : { isActive: true }),
       ...(typeof query.dayOfWeek === "number"
         ? { dayOfWeek: query.dayOfWeek }
         : {}),
@@ -222,15 +244,39 @@ export const adminService = {
     const pageSize = query.pageSize || 20;
     const skip = (page - 1) * pageSize;
 
+    const parsedFromDate = query.fromDate
+      ? parseDateOnlyUtc(query.fromDate)
+      : null;
+    const parsedToDate = query.toDate ? parseDateOnlyUtc(query.toDate) : null;
+
+    if (query.fromDate && !parsedFromDate) {
+      const error = new Error("Invalid fromDate format, expected YYYY-MM-DD");
+      error.status = 400;
+      throw error;
+    }
+
+    if (query.toDate && !parsedToDate) {
+      const error = new Error("Invalid toDate format, expected YYYY-MM-DD");
+      error.status = 400;
+      throw error;
+    }
+
+    const dateFilter = {};
+    if (parsedFromDate) {
+      dateFilter.gte = parsedFromDate.date;
+    }
+    if (parsedToDate) {
+      dateFilter.lt = getUtcDayBounds(parsedToDate.date).dayEnd;
+    }
+
     const where = {
       ...(query.status ? { status: query.status } : {}),
       ...(query.userId ? { userId: query.userId } : {}),
       ...(query.classroomId ? { classroomId: query.classroomId } : {}),
-      ...(query.fromDate || query.toDate
+      ...(Object.keys(dateFilter).length
         ? {
             date: {
-              ...(query.fromDate ? { gte: new Date(query.fromDate) } : {}),
-              ...(query.toDate ? { lte: new Date(query.toDate) } : {}),
+              ...dateFilter,
             },
           }
         : {}),

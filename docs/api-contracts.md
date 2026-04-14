@@ -133,6 +133,14 @@ Success 200:
 
 ## Booking Endpoints
 
+### Date And Timezone Policy
+
+- Booking and availability calendar dates use strict `YYYY-MM-DD` input format.
+- Date-only values are normalized to UTC midnight (`00:00:00.000Z`) for storage and comparisons.
+- Date range filters (`fromDate`, `toDate`) are interpreted as UTC calendar-day bounds.
+- Slot fields (`startTime`, `endTime`) are timezone-less `HH:mm` wall-clock values and are compared on the same selected calendar date.
+- API responses may return booking `date` as an ISO UTC timestamp (for example `2026-03-25T00:00:00.000Z`) representing the same canonical day.
+
 ### GET `/bookings/my?page=1&pageSize=20&status=CONFIRMED`
 
 Success 200:

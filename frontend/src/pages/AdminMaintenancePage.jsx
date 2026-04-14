@@ -4,6 +4,9 @@ import { toggleClassroomMaintenance } from "../features/admin/api/adminApi";
 import { MaintenanceSwitch } from "../features/admin";
 import TextInput from "../shared/forms/TextInput";
 import Button from "../shared/components/Button";
+import { TableSkeleton } from "../shared/components/LoadingSkeleton";
+import PageHeader from "../shared/components/PageHeader";
+import DataTable from "../shared/table/DataTable";
 
 const DEFAULT_PAGE_SIZE = 20;
 
@@ -78,6 +81,33 @@ export default function AdminMaintenancePage() {
     Math.ceil((data.total || 0) / (data.pageSize || pageSize)),
   );
 
+  const columns = [
+    { key: "room", label: "Room", sortable: true },
+    { key: "building", label: "Building", sortable: true },
+    { key: "capacity", label: "Capacity", sortable: true },
+    { key: "facilities", label: "Facilities", sortable: true },
+    { key: "maintenance", label: "Maintenance" },
+  ];
+
+  const rows = data.items.map((room) => ({
+    id: room.id,
+    room: room.roomCode,
+    building: room.building || "-",
+    capacity: room.capacity ?? "-",
+    facilities:
+      Array.isArray(room.facilities) && room.facilities.length
+        ? room.facilities.join(", ")
+        : "-",
+    maintenance: (
+      <MaintenanceSwitch
+        value={room.isMaintenance}
+        onChange={(nextValue) => handleToggle(room, nextValue)}
+        isLoading={Boolean(pendingToggles[room.id])}
+        disabled={isLoading}
+      />
+    ),
+  }));
+
   async function handleToggle(room, nextValue) {
     if (!room?.id) {
       return;
@@ -148,152 +178,152 @@ export default function AdminMaintenancePage() {
 
   return (
     <section className="page admin-maintenance-page">
-      <h1>Room Maintenance</h1>
-      <p>Toggle room availability for maintenance windows.</p>
-
-      <div className="admin-maintenance-toolbar">
-        <label>
-          Search
-          <TextInput
-            type="search"
-            placeholder="Room code or building"
-            value={search}
-            onChange={(event) => {
-              setSearch(event.target.value);
-              setPage(1);
-            }}
-          />
-        </label>
-
-        <label>
-          Building
-          <TextInput
-            type="text"
-            placeholder="Main Block"
-            value={building}
-            onChange={(event) => {
-              setBuilding(event.target.value);
-              setPage(1);
-            }}
-          />
-        </label>
-
-        <label>
-          Status
-          <select
-            value={statusFilter}
-            onChange={(event) => {
-              setStatusFilter(event.target.value);
-              setPage(1);
-            }}
-          >
-            <option value="ALL">All</option>
-            <option value="ACTIVE">Active Rooms</option>
-            <option value="MAINTENANCE">Maintenance Only</option>
-          </select>
-        </label>
-
-        <label>
-          Page Size
-          <select
-            value={String(pageSize)}
-            onChange={(event) => {
-              setPageSize(Number(event.target.value));
-              setPage(1);
-            }}
-          >
-            <option value="10">10</option>
-            <option value="20">20</option>
-            <option value="50">50</option>
-          </select>
-        </label>
-
-        <div className="admin-maintenance-toolbar-actions">
-          <Button type="button" onClick={clearFilters}>
+      <PageHeader
+        title="Room Maintenance"
+        description="Adjust room status with filters and fast row-level updates."
+        breadcrumbs={[
+          { label: "Dashboard", to: "/dashboard" },
+          { label: "Admin" },
+          { label: "Room Maintenance" },
+        ]}
+        meta={`Page ${page} of ${totalPages}`}
+        actions={
+          <Button type="button" variant="secondary" onClick={clearFilters}>
             Reset Filters
           </Button>
+        }
+      />
+
+      <section className="page-panel" aria-label="Maintenance filters">
+        <h2 className="page-panel-title">Filter Rooms</h2>
+        <div className="admin-maintenance-toolbar data-filters">
+          <label>
+            Search
+            <TextInput
+              type="search"
+              placeholder="Room code or building"
+              value={search}
+              onChange={(event) => {
+                setSearch(event.target.value);
+                setPage(1);
+              }}
+            />
+          </label>
+
+          <label>
+            Building
+            <TextInput
+              type="text"
+              placeholder="Main Block"
+              value={building}
+              onChange={(event) => {
+                setBuilding(event.target.value);
+                setPage(1);
+              }}
+            />
+          </label>
+
+          <label>
+            Status
+            <select
+              value={statusFilter}
+              onChange={(event) => {
+                setStatusFilter(event.target.value);
+                setPage(1);
+              }}
+            >
+              <option value="ALL">All</option>
+              <option value="ACTIVE">Active Rooms</option>
+              <option value="MAINTENANCE">Maintenance Only</option>
+            </select>
+          </label>
+
+          <label>
+            Page Size
+            <select
+              value={String(pageSize)}
+              onChange={(event) => {
+                setPageSize(Number(event.target.value));
+                setPage(1);
+              }}
+            >
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="50">50</option>
+            </select>
+          </label>
+
+          <div className="admin-maintenance-toolbar-actions">
+            <p className="filter-help-text">
+              Use reset in the header to clear all filters.
+            </p>
+          </div>
         </div>
-      </div>
+      </section>
 
-      {error ? (
-        <p className="status-error" role="alert">
-          {error}
-        </p>
-      ) : null}
+      <section className="page-panel" aria-live="polite" aria-busy={isLoading}>
+        <h2 className="page-panel-title">Results</h2>
 
-      {successMessage ? (
-        <p className="status-success" role="status">
-          {successMessage}
-        </p>
-      ) : null}
+        {error ? (
+          <p className="status-error" role="alert">
+            {error}
+          </p>
+        ) : null}
 
-      {isLoading ? <p>Loading classrooms...</p> : null}
+        {successMessage ? (
+          <p className="status-success" role="status">
+            {successMessage}
+          </p>
+        ) : null}
 
-      {!isLoading && data.items.length === 0 ? (
-        <p>No classrooms found for the selected filters.</p>
-      ) : null}
+        {isLoading ? (
+          <>
+            <p className="status-info" role="status">
+              Loading room maintenance data...
+            </p>
+            <div className="admin-maintenance-table-wrap data-table-wrap">
+              <TableSkeleton
+                rows={6}
+                columns={5}
+                label="Loading maintenance table"
+              />
+            </div>
+          </>
+        ) : (
+          <div className="admin-maintenance-table-wrap data-table-wrap">
+            <DataTable
+              columns={columns}
+              rows={rows}
+              emptyMessage="No classrooms found for the selected filters."
+            />
+          </div>
+        )}
 
-      {data.items.length > 0 ? (
-        <div className="admin-maintenance-table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Room</th>
-                <th>Building</th>
-                <th>Capacity</th>
-                <th>Facilities</th>
-                <th>Maintenance</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.items.map((room) => (
-                <tr key={room.id}>
-                  <td>{room.roomCode}</td>
-                  <td>{room.building || "-"}</td>
-                  <td>{room.capacity ?? "-"}</td>
-                  <td>
-                    {Array.isArray(room.facilities) && room.facilities.length
-                      ? room.facilities.join(", ")
-                      : "-"}
-                  </td>
-                  <td>
-                    <MaintenanceSwitch
-                      value={room.isMaintenance}
-                      onChange={(nextValue) => handleToggle(room, nextValue)}
-                      isLoading={Boolean(pendingToggles[room.id])}
-                      disabled={isLoading}
-                    />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="admin-maintenance-pagination data-pagination">
+          <p>
+            Page {page} of {totalPages} | Total rooms: {data.total || 0} | Sort
+            via table headers
+          </p>
+
+          <div className="admin-maintenance-pagination-actions data-pagination-actions">
+            <Button
+              type="button"
+              disabled={page <= 1 || isLoading}
+              onClick={() => setPage((current) => Math.max(1, current - 1))}
+            >
+              Previous
+            </Button>
+
+            <Button
+              type="button"
+              disabled={page >= totalPages || isLoading}
+              onClick={() => setPage((current) => current + 1)}
+            >
+              Next
+            </Button>
+          </div>
         </div>
-      ) : null}
-
-      <div className="admin-maintenance-pagination">
-        <p>
-          Page {page} of {totalPages} | Total rooms: {data.total || 0}
-        </p>
-
-        <div className="admin-maintenance-pagination-actions">
-          <Button
-            type="button"
-            disabled={page <= 1 || isLoading}
-            onClick={() => setPage((current) => Math.max(1, current - 1))}
-          >
-            Previous
-          </Button>
-
-          <Button
-            type="button"
-            disabled={page >= totalPages || isLoading}
-            onClick={() => setPage((current) => current + 1)}
-          >
-            Next
-          </Button>
-        </div>
-      </div>
+      </section>
     </section>
   );
 }

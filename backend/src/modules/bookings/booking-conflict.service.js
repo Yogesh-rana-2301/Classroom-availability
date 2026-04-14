@@ -1,4 +1,8 @@
 import { prisma } from "../../config/db.js";
+import {
+  getUtcDayBounds,
+  parseDateOnlyUtc,
+} from "../../common/validators/dateOnly.js";
 
 function timeToMinutes(time) {
   const [hour, minute] = String(time).split(":").map(Number);
@@ -26,12 +30,14 @@ export const bookingConflictService = {
       throw error;
     }
 
-    const bookingDate = new Date(`${payload.date}T00:00:00`);
-    if (Number.isNaN(bookingDate.getTime())) {
+    const parsedDate = parseDateOnlyUtc(payload.date);
+    if (!parsedDate) {
       const error = new Error("Invalid date format, expected YYYY-MM-DD");
       error.status = 400;
       throw error;
     }
+
+    const bookingDate = parsedDate.date;
 
     const classroom = await prisma.classroom.findUnique({
       where: { id: payload.roomId },
@@ -50,17 +56,15 @@ export const bookingConflictService = {
       throw error;
     }
 
-    const dayStart = new Date(bookingDate);
-    dayStart.setHours(0, 0, 0, 0);
-    const dayEnd = new Date(dayStart);
-    dayEnd.setDate(dayEnd.getDate() + 1);
+    const { dayStart, dayEnd } = getUtcDayBounds(bookingDate);
 
-    const dayOfWeek = bookingDate.getDay();
+    const dayOfWeek = bookingDate.getUTCDay();
     const compatibleDayValues = dayOfWeek === 0 ? [0, 7] : [dayOfWeek];
 
     const timetableSlots = await prisma.timetableSlot.findMany({
       where: {
         classroomId: payload.roomId,
+        isActive: true,
         dayOfWeek: { in: compatibleDayValues },
       },
       select: {

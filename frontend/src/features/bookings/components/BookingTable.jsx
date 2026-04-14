@@ -1,3 +1,6 @@
+import Button from "../../../shared/components/Button";
+import DataTable from "../../../shared/table/DataTable";
+
 function formatDate(value) {
   if (!value) {
     return "-";
@@ -16,44 +19,48 @@ export default function BookingTable({
   onCancel,
   cancellingBookingId,
 }) {
+  const columns = [
+    { key: "room", label: "Room", sortable: true },
+    {
+      key: "date",
+      label: "Date",
+      sortable: true,
+      sortAccessor: (row) => row.sortDate,
+    },
+    { key: "slot", label: "Slot", sortable: true },
+    { key: "purpose", label: "Purpose", sortable: true },
+    { key: "status", label: "Status", sortable: true },
+    { key: "actions", label: "Actions" },
+  ];
+
+  const rows = items.map((item) => ({
+    id: item.id,
+    room: item.classroom?.roomCode || item.roomId,
+    date: formatDate(item.date),
+    sortDate: item.date || "",
+    slot: `${item.startTime} - ${item.endTime}`,
+    purpose: item.purpose || "-",
+    status: <span className="status-pill">{item.status}</span>,
+    actions:
+      item.status === "CONFIRMED" && typeof onCancel === "function" ? (
+        <Button
+          onClick={() => onCancel(item)}
+          disabled={cancellingBookingId === item.id}
+          type="button"
+          variant="secondary"
+        >
+          {cancellingBookingId === item.id ? "Cancelling..." : "Cancel"}
+        </Button>
+      ) : (
+        <span>-</span>
+      ),
+  }));
+
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Room</th>
-          <th>Date</th>
-          <th>Slot</th>
-          <th>Purpose</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {items.map((item) => (
-          <tr key={item.id}>
-            <td>{item.classroom?.roomCode || item.roomId}</td>
-            <td>{formatDate(item.date)}</td>
-            <td>
-              {item.startTime} - {item.endTime}
-            </td>
-            <td>{item.purpose || "-"}</td>
-            <td>{item.status}</td>
-            <td>
-              {item.status === "CONFIRMED" && typeof onCancel === "function" ? (
-                <button
-                  onClick={() => onCancel(item)}
-                  disabled={cancellingBookingId === item.id}
-                  type="button"
-                >
-                  {cancellingBookingId === item.id ? "Cancelling..." : "Cancel"}
-                </button>
-              ) : (
-                <span>-</span>
-              )}
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <DataTable
+      columns={columns}
+      rows={rows}
+      emptyMessage="No bookings match your current filters."
+    />
   );
 }

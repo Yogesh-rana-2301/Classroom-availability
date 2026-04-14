@@ -1,0 +1,120 @@
+name: Audit Log Retention
+
+on:
+  schedule:
+    # Staging daily prune window
+    - cron: "30 2 * * *"
+    # Production daily prune window
+    - cron: "0 3 * * *"
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "Target environment"
+        required: true
+        type: choice
+        default: both
+        options:
+          - staging
+          - production
+          - both
+      apply:
+        description: "Apply deletion (false runs dry-run only)"
+        required: true
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  prune-staging:
+    name: Prune Staging Audit Logs
+    runs-on: ubuntu-latest
+    if: >-
+      (github.event_name == 'schedule' && github.event.schedule == '30 2 * * *') ||
+      (github.event_name == 'workflow_dispatch' && (inputs.target == 'staging' || inputs.target == 'both'))
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL_STAGING }}
+      AUDIT_LOG_RETENTION_DAYS: "90"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install backend dependencies
+        working-directory: backend
+        run: npm ci
+
+      - name: Validate staging DB secret
+        run: |
+          if [ -z "$DATABASE_URL" ]; then
+            echo "DATABASE_URL_STAGING is not configured."
+            exit 1
+          fi
+
+      - name: Run retention job (scheduled apply)
+        if: github.event_name == 'schedule'
+        working-directory: backend
+        run: npm run audit:retention -- --apply
+
+      - name: Run retention job (manual mode)
+        if: github.event_name == 'workflow_dispatch'
+        working-directory: backend
+        run: |
+          if [ "${{ inputs.apply }}" = "true" ]; then
+            npm run audit:retention -- --apply
+          else
+            npm run audit:retention
+          fi
+
+  prune-production:
+    name: Prune Production Audit Logs
+    runs-on: ubuntu-latest
+    if: >-
+      (github.event_name == 'schedule' && github.event.schedule == '0 3 * * *') ||
+      (github.event_name == 'workflow_dispatch' && (inputs.target == 'production' || inputs.target == 'both'))
+    env:
+      DATABASE_URL: ${{ secrets.DATABASE_URL_PRODUCTION }}
+      AUDIT_LOG_RETENTION_DAYS: "365"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install backend dependencies
+        working-directory: backend
+        run: npm ci
+
+      - name: Validate production DB secret
+        run: |
+          if [ -z "$DATABASE_URL" ]; then
+            echo "DATABASE_URL_PRODUCTION is not configured."
+            exit 1
+          fi
+
+      - name: Run retention job (scheduled apply)
+        if: github.event_name == 'schedule'
+        working-directory: backend
+        run: npm run audit:retention -- --apply
+
+      - name: Run retention job (manual mode)
+        if: github.event_name == 'workflow_dispatch'
+        working-directory: backend
+        run: |
+          if [ "${{ inputs.apply }}" = "true" ]; then
+            npm run audit:retention -- --apply
+          else
+            npm run audit:retention
+          fi

@@ -1,10 +1,10 @@
-export default function FieldError({ message }) {
+export default function FieldError({ id, message }) {
   if (!message) {
     return null;
   }
 
   return (
-    <p className="field-error" role="alert">
+    <p id={id} className="field-error" role="alert">
       {message}
     </p>
   );

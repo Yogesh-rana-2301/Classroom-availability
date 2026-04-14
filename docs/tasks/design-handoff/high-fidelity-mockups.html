@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>High-Fidelity Mockups - Classroom Availability</title>
+    <link rel="stylesheet" href="high-fidelity-mockups.css" />
+  </head>
+  <body>
+    <main class="page">
+      <section class="hero">
+        <h1>Classroom Availability - High-Fidelity Mockups</h1>
+        <p>
+          Final visual mockups for all key pages and critical states across
+          student, faculty, and admin workflows. These boards capture structure,
+          hierarchy, component behavior, and state messaging for implementation.
+        </p>
+        <div class="legend">
+          <span>Default</span><span>Loading</span><span>Success</span
+          ><span>Error</span><span>Empty</span><span>Read-Only</span>
+        </div>
+      </section>
+
+      <section class="grid">
+        <article class="mockup">
+          <header class="mockup-header">
+            <p class="mockup-title">Login Page</p>
+            <span class="state state-default">Default</span>
+          </header>
+          <div class="surface">
+            <p class="kicker">Auth</p>
+            <p class="h1">Sign in</p>
+            <p class="meta">Institution account required</p>
+            <div class="block">
+              <p class="block-title">Credentials</p>
+              <div class="toolbar">
+                <div class="fake-input">Email</div>
+                <div class="fake-input">Password</div>
+              </div>
+              <div class="badge-row">
+                <span class="fake-btn">Sign in</span>
+                <span class="fake-btn ghost">Forgot password</span>
+              </div>
+            </div>
+            <div class="callout info">
+              State variant: session bootstrap skeleton shown before form.
+            </div>
+          </div>
+        </article>
+
+        <article class="mockup">
+          <header class="mockup-header">
+            <p class="mockup-title">Dashboard</p>
+            <span class="state state-default">Default</span>
+          </header>
+          <div class="surface">
+            <p class="kicker">Overview</p>
+            <p class="h1">Role-aware operations hub</p>
+            <p class="meta">
+              Quick links, pending actions, weekly booking trend
+            </p>
+            <div class="table">
+              <div class="table-head">
+                <span>Card</span><span>Metric</span><span>Trend</span
+                ><span>Action</span>
+              </div>
+              <div class="fake-row">
+                <div class="fake-cell"></div>
+                <div class="fake-cell"></div>
+                <div class="fake-cell"></div>
+                <div class="fake-cell"></div>
+              </div>
+              <div class="fake-row">
+                <div class="fake-cell"></div>
+                <div class="fake-cell"></div>
+                <div class="fake-cell"></div>
+                <div class="fake-cell"></div>
+              </div>
+            </div>
+            <p class="note">
+              States: default cards, loading skeleton cards, empty cards with
+              guidance CTA.
+            </p>
+          </div>
+        </article>
+
+        <article class="mockup">
+          <header class="mockup-header">
+            <p class="mockup-title">Classrooms Page</p>
+            <span class="state state-loading">Loading</span>
+          </header>
+          <div class="surface">
+            <p class="kicker">Search + Filters</p>
+            <p class="h1">Classroom directory</p>
+            <div class="block">
+              <p class="block-title">Filter toolbar</p>
+              <div class="toolbar">
+                <div class="fake-input">Search room/building</div>
+                <div class="fake-input">Building</div>
+                <div class="fake-input">Capacity</div>
+                <div class="fake-input">Maintenance</div>
+              </div>
+            </div>
+            <div class="callout info">
+              Loading classrooms and applying filters...
+            </div>
+            <div class="table">
+              <div class="table-head">
+                <span>Room</span><span>Building</span><span>Capacity</span
+                ><span>Action</span>
+              </div>
+              <div class="fake-row">
+                <div class="fake-cell"></div>
+                <div class="fake-cell"></div>
+                <div class="fake-cell"></div>
+                <div class="fake-cell"></div>
+              </div>
+              <div class="fake-row">
+                <div class="fake-cell"></div>
+                <div class="fake-cell"></div>
+                <div class="fake-cell"></div>
+                <div class="fake-cell"></div>
+              </div>
+              <div class="fake-row">
+                <div class="fake-cell"></div>
+                <div class="fake-cell"></div>
+                <div class="fake-cell"></div>
+                <div class="fake-cell"></div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="mockup">
+          <header class="mockup-header">
+            <p class="mockup-title">Classrooms Page</p>
+            <span class="state state-empty">Empty</span>
+          </header>
+          <div class="surface">
+            <p class="kicker">Results</p>
+            <p class="h1">No classroom matches</p>
+            <div class="callout error">
+              No classrooms match your filters. Try broadening building or
+              capacity.
+            </div>
+            <div class="badge-row">
+              <span class="fake-btn ghost">Reset filters</span>
+              <span class="badge badge-warning">Tip: clear facilities</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="mockup">
+          <header class="mockup-header">
+            <p class="mockup-title">Room Availability</p>
+            <span class="state state-default">Interactive</span>
+          </header>
+          <div class="surface">
+            <p class="kicker">Timeline</p>
+            <p class="h1">Slot-based booking flow</p>
+            <div class="badge-row">
+              <span class="badge badge-success">Available</span>
+              <span class="badge badge-danger">Booked</span>
+              <span class="badge badge-warning">Unavailable</span>
+              <span class="badge badge-primary">Maintenance</span>
+            </div>
+            <div class="timeline-row">
+              <span>09:00-10:00</span
+              ><span class="badge badge-success">Available</span
+              ><span>Select slot to book</span>
+            </div>
+            <div class="timeline-row">
+              <span>10:00-11:00</span
+              ><span class="badge badge-danger">Booked</span
+              ><span>Algorithms lecture</span>
+            </div>
+            <div class="timeline-row">
+              <span>11:00-12:00</span
+              ><span class="badge badge-primary">Maintenance</span
+              ><span>Projector service</span>
+            </div>
+            <p class="note">
+              States included: timeline loading skeleton, read-only note for
+              students, modal open, booking confirmation.
+            </p>
+          </div>
+        </article>
+
+        <article class="mockup">
+          <header class="mockup-header">
+            <p class="mockup-title">Booking Modal</p>
+            <span class="state state-success">Confirmation</span>
+          </header>
+          <div class="surface">
+            <p class="kicker">Modal State</p>
+            <p class="h1">Booking created successfully</p>
+            <div class="callout success">
+              Room L22 on 2026-04-02 from 09:00 to 10:00 is confirmed.
+            </div>
+            <div class="badge-row">
+              <span class="fake-btn ghost">Close</span>
+              <span class="fake-btn">Book another slot</span>
+            </div>
+          </div>
+        </article>
+
+        <article class="mockup">
+          <header class="mockup-header">
+            <p class="mockup-title">My Bookings</p>
+            <span class="state state-default">Results</span>
+          </header>
+          <div class="surface">
+            <p class="kicker">Personal</p>
+            <p class="h1">Manage reservations</p>
+            <div class="callout info">
+              Loading state uses table skeleton with persistent pagination
+              frame.
+            </div>
+            <div class="table">
+              <div class="table-head">
+                <span>Room</span><span>Date</span><span>Status</span
+                ><span>Actions</span>
+              </div>
+              <div class="fake-row">
+                <div class="fake-cell"></div>
+                <div class="fake-cell"></div>
+                <div class="fake-cell"></div>
+                <div class="fake-cell"></div>
+              </div>
+              <div class="fake-row">
+                <div class="fake-cell"></div>
+                <div class="fake-cell"></div>
+                <div class="fake-cell"></div>
+                <div class="fake-cell"></div>
+              </div>
+            </div>
+            <div class="badge-row">
+              <span class="badge badge-success"
+                >Success toast: cancellation complete</span
+              >
+              <span class="badge badge-danger"
+                >Error toast: cancellation failed</span
+              >
+            </div>
+          </div>
+        </article>
+
+        <article class="mockup">
+          <header class="mockup-header">
+            <p class="mockup-title">Admin Timetable</p>
+            <span class="state state-loading">Importing</span>
+          </header>
+          <div class="surface">
+            <p class="kicker">Admin</p>
+            <p class="h1">Timetable import</p>
+            <div class="block">
+              <p class="block-title">Payload editor</p>
+              <div class="fake-input">JSON textarea with schema helper</div>
+              <div class="badge-row">
+                <span class="fake-btn">Import timetable</span>
+                <span class="fake-btn ghost">Reset sample</span>
+              </div>
+            </div>
+            <div class="callout info">
+              Import in progress. Validating payload and syncing timetable...
+            </div>
+            <div class="callout success">
+              Success state: imported classrooms, slots, and processed entries
+              summary.
+            </div>
+            <div class="callout error">
+              Error state: validation list from backend errors.
+            </div>
+          </div>
+        </article>
+
+        <article class="mockup">
+          <header class="mockup-header">
+            <p class="mockup-title">Admin Maintenance</p>
+            <span class="state state-default">Toggle Flow</span>
+          </header>
+          <div class="surface">
+            <p class="kicker">Admin</p>
+            <p class="h1">Room status operations</p>
+            <div class="table">
+              <div class="table-head">
+                <span>Room</span><span>Building</span><span>Capacity</span
+                ><span>Maintenance</span>
+              </div>
+              <div class="fake-row">
+                <div class="fake-cell"></div>
+                <div class="fake-cell"></div>
+                <div class="fake-cell"></div>
+                <div class="fake-cell"></div>
+              </div>
+              <div class="fake-row">
+                <div class="fake-cell"></div>
+                <div class="fake-cell"></div>
+                <div class="fake-cell"></div>
+                <div class="fake-cell"></div>
+              </div>
+            </div>
+            <p class="note">
+              States: table loading, optimistic toggle pending, rollback error,
+              and success confirmation.
+            </p>
+          </div>
+        </article>
+
+        <article class="mockup">
+          <header class="mockup-header">
+            <p class="mockup-title">Admin Audit Logs</p>
+            <span class="state state-default">Dense Data</span>
+          </header>
+          <div class="surface">
+            <p class="kicker">Admin</p>
+            <p class="h1">Immutable activity log</p>
+            <div class="block">
+              <p class="block-title">Filter dimensions</p>
+              <div class="toolbar">
+                <div class="fake-input">Action</div>
+                <div class="fake-input">Entity</div>
+                <div class="fake-input">User ID</div>
+                <div class="fake-input">Page size</div>
+              </div>
+            </div>
+            <div class="table">
+              <div class="table-head">
+                <span>Time</span><span>User</span><span>Action</span
+                ><span>Metadata</span>
+              </div>
+              <div class="fake-row">
+                <div class="fake-cell"></div>
+                <div class="fake-cell"></div>
+                <div class="fake-cell"></div>
+                <div class="fake-cell"></div>
+              </div>
+              <div class="fake-row">
+                <div class="fake-cell"></div>
+                <div class="fake-cell"></div>
+                <div class="fake-cell"></div>
+                <div class="fake-cell"></div>
+              </div>
+            </div>
+            <div class="callout info">
+              Loading skeleton state and empty-state guidance preserved for
+              audit search.
+            </div>
+          </div>
+        </article>
+
+        <article class="mockup">
+          <header class="mockup-header">
+            <p class="mockup-title">Not Found / Error Utility</p>
+            <span class="state state-error">Fallback</span>
+          </header>
+          <div class="surface">
+            <p class="kicker">Utility</p>
+            <p class="h1">404 / route fallback</p>
+            <div class="callout error">
+              We could not find that page. Return to Dashboard or Classrooms.
+            </div>
+            <div class="badge-row">
+              <span class="fake-btn">Go to dashboard</span>
+              <span class="fake-btn ghost">Browse classrooms</span>
+            </div>
+          </div>
+        </article>
+      </section>
+
+      <p class="footer">
+        Companion mapping: see high-fidelity-mockups.md for route-to-state
+        inventory and implementation notes.
+      </p>
+    </main>
+  </body>
+</html>

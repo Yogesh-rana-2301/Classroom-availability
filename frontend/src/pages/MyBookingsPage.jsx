@@ -3,6 +3,8 @@ import { cancelBooking } from "../features/bookings/api/bookingsApi";
 import { BookingTable } from "../features/bookings";
 import { useBookings } from "../features/bookings/hooks/useBookings";
 import Button from "../shared/components/Button";
+import { TableSkeleton } from "../shared/components/LoadingSkeleton";
+import PageHeader from "../shared/components/PageHeader";
 
 const DEFAULT_PAGE_SIZE = 10;
 
@@ -28,7 +30,6 @@ export default function MyBookingsPage() {
     1,
     Math.ceil((data.total || 0) / (data.pageSize || pageSize)),
   );
-  const hasRows = data.items.length > 0;
 
   async function handleCancel(item) {
     if (!item?.id) {
@@ -63,100 +64,127 @@ export default function MyBookingsPage() {
 
   return (
     <section className="page my-bookings-page">
-      <h1>My Bookings</h1>
-      <p>View your bookings and cancel active reservations.</p>
-
-      <div className="my-bookings-toolbar">
-        <label>
-          Status
-          <select
-            value={status}
-            onChange={(event) => {
-              setStatus(event.target.value);
-              setPage(1);
-              setSuccessMessage("");
-              setActionError("");
-            }}
-          >
-            <option value="ALL">All</option>
-            <option value="CONFIRMED">Confirmed</option>
-            <option value="CANCELLED">Cancelled</option>
-          </select>
-        </label>
-
-        <label>
-          Page Size
-          <select
-            value={String(pageSize)}
-            onChange={(event) => {
-              setPageSize(Number(event.target.value));
-              setPage(1);
-            }}
-          >
-            <option value="10">10</option>
-            <option value="20">20</option>
-            <option value="50">50</option>
-          </select>
-        </label>
-      </div>
-
-      {error ? (
-        <p className="status-error" role="alert">
-          {error}
-        </p>
-      ) : null}
-
-      {actionError ? (
-        <p className="status-error" role="alert">
-          {actionError}
-        </p>
-      ) : null}
-
-      {successMessage ? (
-        <p className="status-success" role="status">
-          {successMessage}
-        </p>
-      ) : null}
-
-      {isLoading ? <p>Loading bookings...</p> : null}
-
-      {!isLoading && !hasRows ? (
-        <p>No bookings found for this filter.</p>
-      ) : null}
-
-      {hasRows ? (
-        <div className="my-bookings-table-wrap">
-          <BookingTable
-            items={data.items}
-            onCancel={handleCancel}
-            cancellingBookingId={cancellingBookingId}
-          />
-        </div>
-      ) : null}
-
-      <div className="my-bookings-pagination">
-        <p>
-          Page {page} of {totalPages} | Total bookings: {data.total || 0}
-        </p>
-
-        <div className="my-bookings-pagination-actions">
+      <PageHeader
+        title="My Bookings"
+        description="Track reservations and cancel active entries without losing context."
+        breadcrumbs={[
+          { label: "Dashboard", to: "/dashboard" },
+          { label: "My Bookings" },
+        ]}
+        meta={`Page ${page} of ${totalPages}`}
+        actions={
           <Button
             type="button"
-            disabled={page <= 1 || isLoading}
-            onClick={() => setPage((current) => Math.max(1, current - 1))}
+            variant="secondary"
+            onClick={() => setStatus("ALL")}
           >
-            Previous
+            Show All
           </Button>
+        }
+      />
 
-          <Button
-            type="button"
-            disabled={page >= totalPages || isLoading}
-            onClick={() => setPage((current) => current + 1)}
-          >
-            Next
-          </Button>
+      <section className="page-panel" aria-label="Booking filters">
+        <h2 className="page-panel-title">Filter Bookings</h2>
+        <div className="my-bookings-toolbar data-filters">
+          <label>
+            Status
+            <select
+              value={status}
+              onChange={(event) => {
+                setStatus(event.target.value);
+                setPage(1);
+                setSuccessMessage("");
+                setActionError("");
+              }}
+            >
+              <option value="ALL">All</option>
+              <option value="CONFIRMED">Confirmed</option>
+              <option value="CANCELLED">Cancelled</option>
+            </select>
+          </label>
+
+          <label>
+            Page Size
+            <select
+              value={String(pageSize)}
+              onChange={(event) => {
+                setPageSize(Number(event.target.value));
+                setPage(1);
+              }}
+            >
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="50">50</option>
+            </select>
+          </label>
         </div>
-      </div>
+      </section>
+
+      <section className="page-panel" aria-live="polite" aria-busy={isLoading}>
+        <h2 className="page-panel-title">Results</h2>
+
+        {error ? (
+          <p className="status-error" role="alert">
+            {error}
+          </p>
+        ) : null}
+
+        {actionError ? (
+          <p className="status-error" role="alert">
+            {actionError}
+          </p>
+        ) : null}
+
+        {successMessage ? (
+          <p className="status-success" role="status">
+            {successMessage}
+          </p>
+        ) : null}
+
+        {isLoading ? (
+          <>
+            <p className="status-info" role="status">
+              Loading your bookings...
+            </p>
+            <div className="my-bookings-table-wrap data-table-wrap">
+              <TableSkeleton rows={6} columns={6} label="Loading bookings" />
+            </div>
+          </>
+        ) : (
+          <div className="my-bookings-table-wrap data-table-wrap">
+            <BookingTable
+              items={data.items}
+              onCancel={handleCancel}
+              cancellingBookingId={cancellingBookingId}
+            />
+          </div>
+        )}
+
+        <div className="my-bookings-pagination data-pagination">
+          <p>
+            Page {page} of {totalPages} | Total bookings: {data.total || 0} |
+            Sort via table headers
+          </p>
+
+          <div className="my-bookings-pagination-actions data-pagination-actions">
+            <Button
+              type="button"
+              disabled={page <= 1 || isLoading}
+              onClick={() => setPage((current) => Math.max(1, current - 1))}
+            >
+              Previous
+            </Button>
+
+            <Button
+              type="button"
+              disabled={page >= totalPages || isLoading}
+              onClick={() => setPage((current) => current + 1)}
+            >
+              Next
+            </Button>
+          </div>
+        </div>
+      </section>
     </section>
   );
 }

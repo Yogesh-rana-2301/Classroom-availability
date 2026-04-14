@@ -7,6 +7,9 @@ import { validateBookingInput } from "../features/bookings/validators/bookingSch
 import { BookingForm } from "../features/bookings";
 import { useAuth } from "../app/AuthProvider";
 import Button from "../shared/components/Button";
+import { TimelineSkeleton } from "../shared/components/LoadingSkeleton";
+import BaseModal from "../shared/modal/BaseModal";
+import PageHeader from "../shared/components/PageHeader";
 import { formatISODate } from "../utils/dateTime";
 
 function getTodayDateValue() {
@@ -29,6 +32,8 @@ export default function RoomAvailabilityPage() {
   const [bookingError, setBookingError] = useState("");
   const [bookingSuccess, setBookingSuccess] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+  const [bookingConfirmation, setBookingConfirmation] = useState(null);
 
   const canBook = user?.role === "ADMIN" || user?.role === "FACULTY";
 
@@ -88,6 +93,8 @@ export default function RoomAvailabilityPage() {
 
   useEffect(() => {
     setSelectedSlot(null);
+    setIsBookingModalOpen(false);
+    setBookingConfirmation(null);
   }, [date]);
 
   async function handleCreateBooking(form) {
@@ -118,10 +125,17 @@ export default function RoomAvailabilityPage() {
     setIsSubmitting(true);
     setBookingError("");
     setBookingSuccess("");
+    setBookingConfirmation(null);
 
     try {
       await createBooking(payload);
       setBookingSuccess("Booking created successfully.");
+      setBookingConfirmation({
+        roomId: id,
+        date,
+        startTime: payload.startTime,
+        endTime: payload.endTime,
+      });
       await loadAvailability();
     } catch (requestError) {
       setBookingError(
@@ -133,108 +147,202 @@ export default function RoomAvailabilityPage() {
     }
   }
 
+  function closeBookingModal() {
+    if (isSubmitting) {
+      return;
+    }
+
+    setIsBookingModalOpen(false);
+  }
+
+  function resetBookingFlow() {
+    setBookingConfirmation(null);
+    setBookingError("");
+    setBookingSuccess("");
+    setIsBookingModalOpen(false);
+    setSelectedSlot(null);
+  }
+
   const totalSlots = data.slots.length;
 
   return (
     <section className="page room-availability-page">
-      <h1>Room Availability</h1>
+      <PageHeader
+        title="Room Availability"
+        description="Check timeline status and create a booking when a slot is free."
+        breadcrumbs={[
+          { label: "Dashboard", to: "/dashboard" },
+          { label: "Classrooms", to: "/classrooms" },
+          { label: "Room Availability" },
+        ]}
+        meta={
+          <>
+            Room ID: <strong>{id}</strong>
+          </>
+        }
+        actions={
+          <Link to="/classrooms">
+            <Button type="button" variant="secondary">
+              Back to Rooms
+            </Button>
+          </Link>
+        }
+      />
 
-      <p>
-        Room ID: <strong>{id}</strong>
-      </p>
+      <section className="page-panel" aria-label="Availability controls">
+        <div className="availability-toolbar">
+          <label>
+            Date
+            <input
+              type="date"
+              value={date}
+              onChange={(event) => {
+                setDate(event.target.value);
+                setBookingSuccess("");
+                setBookingError("");
+              }}
+            />
+          </label>
+        </div>
 
-      <div className="availability-toolbar">
-        <label>
-          Date
-          <input
-            type="date"
-            value={date}
-            onChange={(event) => {
-              setDate(event.target.value);
-              setBookingSuccess("");
-              setBookingError("");
-            }}
-          />
-        </label>
+        <div className="availability-legend" aria-label="Availability legend">
+          <span className="legend-pill legend-available">Available</span>
+          <span className="legend-pill legend-booked">Booked</span>
+          <span className="legend-pill legend-unavailable">Unavailable</span>
+          <span className="legend-pill legend-maintenance">Maintenance</span>
+        </div>
+      </section>
 
-        <Link to="/classrooms">
-          <Button type="button">Back to Classrooms</Button>
-        </Link>
-      </div>
+      <section className="page-panel" aria-live="polite" aria-busy={isLoading}>
+        <h2 className="page-panel-title">Timeline</h2>
 
-      <div className="availability-legend" aria-label="Availability legend">
-        <span className="legend-pill legend-available">Available</span>
-        <span className="legend-pill legend-booked">Booked</span>
-        <span className="legend-pill legend-unavailable">Unavailable</span>
-        <span className="legend-pill legend-maintenance">Maintenance</span>
-      </div>
+        {isLoading ? (
+          <>
+            <p className="status-info" role="status">
+              Loading room timeline for {date}...
+            </p>
+            <TimelineSkeleton rows={8} />
+          </>
+        ) : null}
 
-      {isLoading ? <p>Loading timeline...</p> : null}
+        {error ? (
+          <p className="status-error" role="alert">
+            {error}
+          </p>
+        ) : null}
 
-      {error ? (
-        <p className="status-error" role="alert">
-          {error}
-        </p>
+        {!isLoading && !error ? (
+          <>
+            <p>
+              Date: {data.date || date} | Returned slots: {totalSlots}
+            </p>
+
+            {data.message ? <p>{data.message}</p> : null}
+
+            {canBook ? (
+              <p className="booking-touchpoint-note">
+                Select an available row to open the booking sheet.
+              </p>
+            ) : (
+              <p className="booking-touchpoint-note">
+                Read-only access. Faculty/Admin accounts can open booking.
+              </p>
+            )}
+
+            <AvailabilityGrid
+              slots={data.slots}
+              selectedSlot={selectedSlot}
+              onSelectSlot={(slot) => {
+                setSelectedSlot(slot);
+                setBookingSuccess("");
+                setBookingError("");
+                setBookingConfirmation(null);
+
+                if (canBook) {
+                  setIsBookingModalOpen(true);
+                }
+              }}
+            />
+          </>
+        ) : null}
+      </section>
+
+      {bookingSuccess ? (
+        <section
+          className="page-panel booking-confirmation-inline"
+          role="status"
+        >
+          <h2 className="page-panel-title">Latest Booking Update</h2>
+          <p className="status-success">{bookingSuccess}</p>
+        </section>
       ) : null}
 
-      {!isLoading && !error ? (
-        <>
-          <p>
-            Date: {data.date || date} | Returned slots: {totalSlots}
-          </p>
-
-          {data.message ? <p>{data.message}</p> : null}
-
-          <AvailabilityGrid
-            slots={data.slots}
-            selectedSlot={selectedSlot}
-            onSelectSlot={(slot) => {
-              setSelectedSlot(slot);
-              setBookingSuccess("");
-              setBookingError("");
-            }}
-          />
-
-          <section className="booking-section">
-            <h2>Create Booking</h2>
-            <p>
-              Select an available timeline row to prefill time, or enter times
-              manually.
-            </p>
-            {selectedSlot ? (
+      {isBookingModalOpen ? (
+        <BaseModal
+          title="Create Booking"
+          onClose={closeBookingModal}
+          width="lg"
+        >
+          {bookingConfirmation ? (
+            <section className="booking-confirmation-state" role="status">
+              <p className="booking-confirmation-badge">Confirmed</p>
+              <h3>Booking created successfully</h3>
               <p>
-                Selected slot: {selectedSlot.startTime} - {selectedSlot.endTime}
+                Room <strong>{bookingConfirmation.roomId}</strong> on{" "}
+                <strong>{bookingConfirmation.date}</strong> from{" "}
+                <strong>
+                  {bookingConfirmation.startTime} -{" "}
+                  {bookingConfirmation.endTime}
+                </strong>
+                .
               </p>
-            ) : null}
+              <div className="booking-confirmation-actions">
+                <Button
+                  type="button"
+                  variant="secondary"
+                  onClick={resetBookingFlow}
+                >
+                  Close
+                </Button>
+                <Button
+                  type="button"
+                  onClick={() => {
+                    setBookingConfirmation(null);
+                    setBookingError("");
+                    setBookingSuccess("");
+                  }}
+                >
+                  Book Another Slot
+                </Button>
+              </div>
+            </section>
+          ) : (
+            <>
+              <div className="booking-modal-summary">
+                <p className="booking-modal-summary-title">Selected Slot</p>
+                <p>
+                  {selectedSlot?.startTime || "--:--"} -{" "}
+                  {selectedSlot?.endTime || "--:--"} on {date}
+                </p>
+              </div>
 
-            {!canBook ? (
-              <p>
-                Read-only for your role. Faculty/Admin accounts can create
-                bookings.
-              </p>
-            ) : null}
+              {bookingError ? (
+                <p className="status-error" role="alert">
+                  {bookingError}
+                </p>
+              ) : null}
 
-            {bookingError ? (
-              <p className="status-error" role="alert">
-                {bookingError}
-              </p>
-            ) : null}
-
-            {bookingSuccess ? (
-              <p className="status-success" role="status">
-                {bookingSuccess}
-              </p>
-            ) : null}
-
-            <BookingForm
-              onSubmit={handleCreateBooking}
-              initialValues={bookingFormDefaults}
-              isLoading={isSubmitting}
-              lockRoomAndDate
-              submitLabel="Create Booking"
-            />
-          </section>
-        </>
+              <BookingForm
+                onSubmit={handleCreateBooking}
+                initialValues={bookingFormDefaults}
+                isLoading={isSubmitting}
+                lockRoomAndDate
+                hideLockedFields
+                submitLabel="Confirm Booking"
+              />
+            </>
+          )}
+        </BaseModal>
       ) : null}
     </section>
   );

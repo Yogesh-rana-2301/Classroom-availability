@@ -50,9 +50,16 @@ model TimetableSlot {
   endTime     String
   subject     String?
   facultyName String?
+  isActive    Boolean   @default(true)
+  importBatchId String?
+  supersededAt DateTime?
+  supersededByBatchId String?
   classroom   Classroom @relation(fields: [classroomId], references: [id], onDelete: Cascade)
 
   @@index([classroomId, dayOfWeek])
+  @@index([classroomId, dayOfWeek, isActive])
+  @@index([importBatchId])
+  @@index([supersededByBatchId])
 }
 
 model Booking {

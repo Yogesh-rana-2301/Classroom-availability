@@ -33,7 +33,46 @@
 
 ## To Do
 
-- [ ] NAN 
+Incentivisation Phase Tasks
+ [P0 | Day 0-30] Add recurring booking API for weekly/term one-click repeat booking
+
+ [P0 | Day 0-30] Add smart alternatives API returning top 3 room suggestions by capacity, building proximity, facilities, and closest time
+
+ [P0 | Day 0-30] Add emergency fast-book API path (2-click flow support with defaults)
+
+ [P0 | Day 0-30] Add book-again API from booking history
+
+ [P0 | Day 0-30] Add usual-room presets CRUD API
+
+ [P0 | Day 0-30] Add feature-flag targeting for pilot department rollout
+
+ [P0 | Day 0-30] Add analytics events for time-to-book and completion funnel
+
+ [P1 | Day 31-60] Add timetable auto-sync ingestion API (not only manual import)
+
+ [P1 | Day 31-60] Add exception-edit APIs for auto-synced timetable
+
+ [P1 | Day 31-60] Add auto-notification event pipeline for student room-change alerts
+
+ [P1 | Day 31-60] Add personal time-saved service (hours saved, conflicts avoided, suggestions accepted)
+
+ [P1 | Day 31-60] Add fallback reserve-queue with admin-assisted auto-allocation
+
+ [P1 | Day 31-60] Add auto-approval rules engine for low-risk requests
+
+ [P1 | Day 31-60] Add experiment assignment and exposure endpoints for A/B tests
+
+ [P2 | Day 61-90] Add ERP integration connector and reconciliation jobs
+
+ [P2 | Day 61-90] Add LMS integration connector and reconciliation jobs
+
+ [P2 | Day 61-90] Add Google Calendar integration and sync conflict handling
+
+ [P2 | Day 61-90] Add incentive logic: faculty priority access, reliability badge, instant confirmation eligibility
+
+ [P2 | Day 61-90] Add referral-credit and first-3-bookings-assisted backend workflows
+
+ [P2 | Day 61-90] Add department adoption and utilization leaderboard APIs
 
 ## Done Criteria
 

@@ -30,13 +30,22 @@ export function withAuth(req, token) {
 }
 
 export function nextDateForWeekday(targetWeekday) {
-  const date = new Date();
-  date.setHours(0, 0, 0, 0);
+  const todayUtc = new Date();
+  const date = new Date(
+    Date.UTC(
+      todayUtc.getUTCFullYear(),
+      todayUtc.getUTCMonth(),
+      todayUtc.getUTCDate(),
+    ),
+  );
 
-  const delta = (targetWeekday - date.getDay() + 7) % 7 || 7;
-  date.setDate(date.getDate() + delta);
+  const delta = (targetWeekday - date.getUTCDay() + 7) % 7 || 7;
+  date.setUTCDate(date.getUTCDate() + delta);
 
-  return date.toISOString().slice(0, 10);
+  const year = date.getUTCFullYear();
+  const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+  const day = String(date.getUTCDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
 }
 
 export function buildUniqueTimeWindow() {

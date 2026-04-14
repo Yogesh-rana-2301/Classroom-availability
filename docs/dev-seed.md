@@ -23,6 +23,10 @@ Or reset and reseed from scratch:
 npm run dev:db:reset
 ```
 
+Note: `npm run prisma:seed` is idempotent for local development. It first
+cleans seeded entities (`Booking`, `AuditLog`, `RefreshTokenSession`,
+`TimetableSlot`, `Classroom`, `User`) and then recreates a fixed baseline.
+
 ## 3) Dev login accounts
 
 - `admin@pec.local` / `DevPass@123`

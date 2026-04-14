@@ -1,3 +1,5 @@
+import DataTable from "../../../shared/table/DataTable";
+
 function formatDate(value) {
   if (!value) {
     return "-";
@@ -28,30 +30,38 @@ function formatMetadata(value) {
 }
 
 export default function AuditTable({ rows = [] }) {
+  const columns = [
+    {
+      key: "time",
+      label: "Time",
+      sortable: true,
+      sortAccessor: (row) => row.sortCreatedAt,
+    },
+    { key: "user", label: "User", sortable: true },
+    { key: "action", label: "Action", sortable: true },
+    { key: "entity", label: "Entity", sortable: true },
+    { key: "entityId", label: "Entity ID", sortable: true },
+    { key: "metadata", label: "Metadata" },
+  ];
+
+  const tableRows = rows.map((row) => ({
+    id: row.id,
+    time: formatDate(row.createdAt),
+    sortCreatedAt: row.createdAt || "",
+    user: row.userId || "-",
+    action: row.action,
+    entity: row.entity,
+    entityId: row.entityId || "-",
+    metadata: (
+      <span className="audit-metadata">{formatMetadata(row.metadata)}</span>
+    ),
+  }));
+
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Time</th>
-          <th>User</th>
-          <th>Action</th>
-          <th>Entity</th>
-          <th>Entity ID</th>
-          <th>Metadata</th>
-        </tr>
-      </thead>
-      <tbody>
-        {rows.map((row) => (
-          <tr key={row.id}>
-            <td>{formatDate(row.createdAt)}</td>
-            <td>{row.userId || "-"}</td>
-            <td>{row.action}</td>
-            <td>{row.entity}</td>
-            <td>{row.entityId || "-"}</td>
-            <td className="audit-metadata">{formatMetadata(row.metadata)}</td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <DataTable
+      columns={columns}
+      rows={tableRows}
+      emptyMessage="No audit events found for these filters."
+    />
   );
 }

@@ -1,13 +1,24 @@
 import { prisma } from "../../config/db.js";
+import {
+  getUtcDayBounds,
+  parseDateOnlyUtc,
+} from "../../common/validators/dateOnly.js";
 
 export const bookingsRepository = {
   async createWithAudit(userId, payload) {
+    const parsedDate = parseDateOnlyUtc(payload.date);
+    if (!parsedDate) {
+      const error = new Error("Invalid date format, expected YYYY-MM-DD");
+      error.status = 400;
+      throw error;
+    }
+
     return prisma.$transaction(async (tx) => {
       const booking = await tx.booking.create({
         data: {
           userId,
           classroomId: payload.roomId,
-          date: new Date(payload.date),
+          date: parsedDate.date,
           startTime: payload.startTime,
           endTime: payload.endTime,
           purpose: payload.purpose || null,
@@ -42,15 +53,39 @@ export const bookingsRepository = {
     const pageSize = query.pageSize || 20;
     const skip = (page - 1) * pageSize;
 
+    const parsedFromDate = query.fromDate
+      ? parseDateOnlyUtc(query.fromDate)
+      : null;
+    const parsedToDate = query.toDate ? parseDateOnlyUtc(query.toDate) : null;
+
+    if (query.fromDate && !parsedFromDate) {
+      const error = new Error("Invalid fromDate format, expected YYYY-MM-DD");
+      error.status = 400;
+      throw error;
+    }
+
+    if (query.toDate && !parsedToDate) {
+      const error = new Error("Invalid toDate format, expected YYYY-MM-DD");
+      error.status = 400;
+      throw error;
+    }
+
+    const dateFilter = {};
+    if (parsedFromDate) {
+      dateFilter.gte = parsedFromDate.date;
+    }
+    if (parsedToDate) {
+      dateFilter.lt = getUtcDayBounds(parsedToDate.date).dayEnd;
+    }
+
     const where = {
       userId,
       ...(query.status ? { status: query.status } : {}),
       ...(query.classroomId ? { classroomId: query.classroomId } : {}),
-      ...(query.fromDate || query.toDate
+      ...(Object.keys(dateFilter).length
         ? {
             date: {
-              ...(query.fromDate ? { gte: new Date(query.fromDate) } : {}),
-              ...(query.toDate ? { lte: new Date(query.toDate) } : {}),
+              ...dateFilter,
             },
           }
         : {}),

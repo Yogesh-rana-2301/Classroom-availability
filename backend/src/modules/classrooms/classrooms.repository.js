@@ -67,4 +67,60 @@ export const classroomsRepository = {
   async getById(id) {
     return prisma.classroom.findUnique({ where: { id } });
   },
+
+  async getAvailabilityContext({
+    classroomId,
+    compatibleDayValues,
+    dayStart,
+    dayEnd,
+  }) {
+    const [classroom, timetableSlots, bookings] = await prisma.$transaction([
+      prisma.classroom.findUnique({
+        where: { id: classroomId },
+        select: {
+          id: true,
+          isMaintenance: true,
+        },
+      }),
+      prisma.timetableSlot.findMany({
+        where: {
+          classroomId,
+          isActive: true,
+          dayOfWeek: { in: compatibleDayValues },
+        },
+        orderBy: [{ startTime: "asc" }, { endTime: "asc" }],
+        select: {
+          id: true,
+          startTime: true,
+          endTime: true,
+          subject: true,
+          facultyName: true,
+        },
+      }),
+      prisma.booking.findMany({
+        where: {
+          classroomId,
+          status: "CONFIRMED",
+          date: {
+            gte: dayStart,
+            lt: dayEnd,
+          },
+        },
+        orderBy: [{ startTime: "asc" }, { endTime: "asc" }],
+        select: {
+          id: true,
+          startTime: true,
+          endTime: true,
+          purpose: true,
+          userId: true,
+        },
+      }),
+    ]);
+
+    return {
+      classroom,
+      timetableSlots,
+      bookings,
+    };
+  },
 };

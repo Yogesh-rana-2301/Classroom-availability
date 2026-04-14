@@ -1,6 +1,9 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { TimetableUploader } from "../features/admin";
 import { importTimetable } from "../features/admin/api/adminApi";
+import Button from "../shared/components/Button";
+import PageHeader from "../shared/components/PageHeader";
 
 export default function AdminTimetablePage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -39,8 +42,22 @@ export default function AdminTimetablePage() {
 
   return (
     <section className="page admin-timetable-page">
-      <h1>Timetable Management</h1>
-      <p>Upload and validate recurring official timetable slots.</p>
+      <PageHeader
+        title="Timetable Management"
+        description="Upload and validate recurring official timetable slots."
+        breadcrumbs={[
+          { label: "Dashboard", to: "/dashboard" },
+          { label: "Admin" },
+          { label: "Timetable" },
+        ]}
+        actions={
+          <Link to="/admin/maintenance">
+            <Button type="button" variant="secondary">
+              Manage Room Status
+            </Button>
+          </Link>
+        }
+      />
 
       {error ? (
         <p className="status-error" role="alert">
@@ -58,6 +75,12 @@ export default function AdminTimetablePage() {
             <li>Payload entries processed: {result.payloadPreview ?? 0}</li>
           </ul>
         </div>
+      ) : null}
+
+      {isLoading ? (
+        <p className="status-info" role="status">
+          Import in progress. Validating payload and syncing timetable...
+        </p>
       ) : null}
 
       <TimetableUploader onUpload={handleImport} isLoading={isLoading} />

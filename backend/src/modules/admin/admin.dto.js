@@ -8,6 +8,8 @@ export function toTimetableImportDto(payload) {
     payloadPreview: payload.payloadPreview,
     importedClassrooms: payload.importedClassrooms,
     importedSlots: payload.importedSlots,
+    supersededSlots: payload.supersededSlots,
+    importBatchId: payload.importBatchId,
   };
 }
 

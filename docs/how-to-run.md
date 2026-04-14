@@ -164,3 +164,13 @@ npm run preview
 ```bash
 docker compose down
 ```
+
+## Staging and Production Operations
+
+For backup and restore procedures, see:
+
+- `docs/backup-restore.md`
+
+For audit-log retention policy and prune command usage, see:
+
+- `docs/audit-log-retention.md`

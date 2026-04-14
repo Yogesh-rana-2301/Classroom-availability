@@ -19,6 +19,7 @@ const state = {
   facultyRole: "",
   studentRole: "",
   sampleRoomId: "",
+  sampleRoomCode: "",
   createdBookingId: "",
 };
 
@@ -42,6 +43,7 @@ before(async () => {
   const firstClassroom = classroomsRes.body?.data?.items?.[0];
   assert.ok(firstClassroom?.id, "Expected at least one seeded classroom");
   state.sampleRoomId = firstClassroom.id;
+  state.sampleRoomCode = firstClassroom.roomCode;
 });
 
 after(async () => {
@@ -136,6 +138,25 @@ describe("MVP API regression scaffold", () => {
       ).expect(409);
 
       assert.match(String(overlap.body.message), /already booked/i);
+
+      const availability = await withAuth(
+        request(app)
+          .get(`/api/v1/classrooms/${state.sampleRoomId}/availability`)
+          .query({ date }),
+        state.facultyToken,
+      ).expect(200);
+
+      const bookedSlot = availability.body?.data?.slots?.find(
+        (slot) =>
+          slot.startTime === createPayload.startTime &&
+          slot.endTime === createPayload.endTime &&
+          String(slot.status).toUpperCase() === "BOOKED",
+      );
+
+      assert.ok(
+        bookedSlot,
+        "Expected availability response to include BOOKED slot",
+      );
     });
 
     it("returns current user bookings list", async () => {
@@ -146,6 +167,48 @@ describe("MVP API regression scaffold", () => {
 
       assert.equal(res.body.success, true);
       assert.ok(Array.isArray(res.body.data?.items));
+    });
+
+    it("reflects imported timetable entries as unavailable slots", async () => {
+      const monday = nextDateForWeekday(1);
+      const importPayload = {
+        department: "CSE",
+        academic_year: "2026-27",
+        schedule: {
+          Monday: {
+            "13:00-14:00": [
+              {
+                course: "MVP Regression Timetable",
+                venue: state.sampleRoomCode,
+              },
+            ],
+          },
+        },
+      };
+
+      await withAuth(
+        request(app).post("/api/v1/admin/timetable/import").send(importPayload),
+        state.adminToken,
+      ).expect(200);
+
+      const availability = await withAuth(
+        request(app)
+          .get(`/api/v1/classrooms/${state.sampleRoomId}/availability`)
+          .query({ date: monday }),
+        state.facultyToken,
+      ).expect(200);
+
+      const timetableSlot = availability.body?.data?.slots?.find(
+        (slot) =>
+          slot.startTime === "13:00" &&
+          slot.endTime === "14:00" &&
+          String(slot.status).toUpperCase() === "UNAVAILABLE",
+      );
+
+      assert.ok(
+        timetableSlot,
+        "Expected availability response to include UNAVAILABLE timetable slot",
+      );
     });
   });
 

@@ -5,6 +5,16 @@ const prisma = new PrismaClient();
 
 const DEV_PASSWORD = "DevPass@123";
 
+async function cleanupForRepeatableLocalSeed() {
+  // Delete in FK-safe order so repeated local seed runs converge to one baseline state.
+  await prisma.booking.deleteMany();
+  await prisma.auditLog.deleteMany();
+  await prisma.refreshTokenSession.deleteMany();
+  await prisma.timetableSlot.deleteMany();
+  await prisma.classroom.deleteMany();
+  await prisma.user.deleteMany();
+}
+
 async function seedUsers() {
   const passwordHash = await bcrypt.hash(DEV_PASSWORD, 10);
 
@@ -184,12 +194,14 @@ async function seedAuditLog(adminUserId) {
 }
 
 async function main() {
+  await cleanupForRepeatableLocalSeed();
+
   const users = await seedUsers();
   const classrooms = await seedClassrooms();
   await seedTimetable(classrooms);
   await seedAuditLog(users.admin.id);
 
-  console.log("Seed complete.");
+  console.log("Seed complete (cleanup + baseline reseed).");
   console.log("Dev credentials:");
   console.log("- admin@pec.local / DevPass@123");
   console.log("- faculty@pec.local / DevPass@123");

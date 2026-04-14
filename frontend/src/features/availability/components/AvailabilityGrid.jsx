@@ -70,6 +70,22 @@ function normalizeStatus(status) {
   return "available";
 }
 
+function toStatusLabel(statusType) {
+  if (statusType === "maintenance") {
+    return "Maintenance";
+  }
+
+  if (statusType === "booked") {
+    return "Booked";
+  }
+
+  if (statusType === "unavailable") {
+    return "Unavailable";
+  }
+
+  return "Available";
+}
+
 function buildTimeline() {
   const items = [];
 
@@ -147,11 +163,11 @@ export default function AvailabilityGrid({
         const isSelected =
           selectedSlot?.startTime === block.startTime &&
           selectedSlot?.endTime === block.endTime;
-        const statusLabel = statusType[0].toUpperCase() + statusType.slice(1);
+        const statusLabel = toStatusLabel(statusType);
         const details = matchedSlot
           ? matchedSlot.details ||
             toSlotLabel(matchedSlot.startTime, matchedSlot.endTime)
-          : "No blocking events";
+          : "Open slot. Select to prefill booking.";
 
         return (
           <div
@@ -181,12 +197,26 @@ export default function AvailabilityGrid({
                 : undefined
             }
             tabIndex={isSelectable ? 0 : -1}
+            aria-label={`${toSlotLabel(block.startTime, block.endTime)} ${statusLabel}${isSelectable ? ", selectable" : ""}`}
           >
-            <span role="cell">
+            <span role="cell" className="availability-grid-slot-time">
               {toSlotLabel(block.startTime, block.endTime)}
             </span>
-            <span role="cell">{statusLabel}</span>
-            <span role="cell">{details}</span>
+            <span role="cell">
+              <span
+                className={`availability-status availability-status-${statusType}`}
+              >
+                {statusLabel}
+              </span>
+            </span>
+            <span role="cell" className="availability-grid-details">
+              {details}
+              {isSelectable ? (
+                <span className="availability-grid-action-hint">
+                  Select slot
+                </span>
+              ) : null}
+            </span>
           </div>
         );
       })}

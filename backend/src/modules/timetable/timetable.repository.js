@@ -7,6 +7,7 @@ export const timetableRepository = {
     const skip = (page - 1) * pageSize;
 
     const where = {
+      isActive: true,
       ...(typeof query.dayOfWeek === "number"
         ? { dayOfWeek: query.dayOfWeek }
         : {}),

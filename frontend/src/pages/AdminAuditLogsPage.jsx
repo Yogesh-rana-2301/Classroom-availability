@@ -3,6 +3,8 @@ import { AuditTable } from "../features/admin";
 import { fetchAdminAuditLogs } from "../features/admin/api/adminApi";
 import TextInput from "../shared/forms/TextInput";
 import Button from "../shared/components/Button";
+import { TableSkeleton } from "../shared/components/LoadingSkeleton";
+import PageHeader from "../shared/components/PageHeader";
 
 const DEFAULT_PAGE_SIZE = 20;
 
@@ -95,112 +97,136 @@ export default function AdminAuditLogsPage() {
 
   return (
     <section className="page admin-audit-page">
-      <h1>Audit Logs</h1>
-      <p>Immutable trail of booking, cancellation, and override events.</p>
-
-      <div className="admin-audit-toolbar">
-        <label>
-          Action
-          <TextInput
-            type="text"
-            value={action}
-            placeholder="AUTH_LOGIN"
-            onChange={(event) => {
-              setAction(event.target.value);
-              setPage(1);
-            }}
-          />
-        </label>
-
-        <label>
-          Entity
-          <TextInput
-            type="text"
-            value={entity}
-            placeholder="BOOKING"
-            onChange={(event) => {
-              setEntity(event.target.value);
-              setPage(1);
-            }}
-          />
-        </label>
-
-        <label>
-          User ID
-          <TextInput
-            type="text"
-            value={userId}
-            placeholder="clx123"
-            onChange={(event) => {
-              setUserId(event.target.value);
-              setPage(1);
-            }}
-          />
-        </label>
-
-        <label>
-          Page Size
-          <select
-            value={String(pageSize)}
-            onChange={(event) => {
-              setPageSize(Number(event.target.value));
-              setPage(1);
-            }}
-          >
-            <option value="20">20</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-          </select>
-        </label>
-
-        <div className="admin-audit-toolbar-actions">
-          <Button type="button" onClick={clearFilters}>
+      <PageHeader
+        title="Audit Logs"
+        description="Search immutable events for bookings, overrides, and auth actions."
+        breadcrumbs={[
+          { label: "Dashboard", to: "/dashboard" },
+          { label: "Admin" },
+          { label: "Audit Logs" },
+        ]}
+        meta={`Page ${page} of ${totalPages}`}
+        actions={
+          <Button type="button" variant="secondary" onClick={clearFilters}>
             Reset Filters
           </Button>
+        }
+      />
+
+      <section className="page-panel" aria-label="Audit filters">
+        <h2 className="page-panel-title">Filter Logs</h2>
+        <div className="admin-audit-toolbar data-filters">
+          <label>
+            Action
+            <TextInput
+              type="text"
+              value={action}
+              placeholder="AUTH_LOGIN"
+              onChange={(event) => {
+                setAction(event.target.value);
+                setPage(1);
+              }}
+            />
+          </label>
+
+          <label>
+            Entity
+            <TextInput
+              type="text"
+              value={entity}
+              placeholder="BOOKING"
+              onChange={(event) => {
+                setEntity(event.target.value);
+                setPage(1);
+              }}
+            />
+          </label>
+
+          <label>
+            User ID
+            <TextInput
+              type="text"
+              value={userId}
+              placeholder="clx123"
+              onChange={(event) => {
+                setUserId(event.target.value);
+                setPage(1);
+              }}
+            />
+          </label>
+
+          <label>
+            Page Size
+            <select
+              value={String(pageSize)}
+              onChange={(event) => {
+                setPageSize(Number(event.target.value));
+                setPage(1);
+              }}
+            >
+              <option value="20">20</option>
+              <option value="50">50</option>
+              <option value="100">100</option>
+            </select>
+          </label>
+
+          <div className="admin-audit-toolbar-actions">
+            <p className="filter-help-text">
+              Use reset in the header to clear all filters.
+            </p>
+          </div>
         </div>
-      </div>
+      </section>
 
-      {error ? (
-        <p className="status-error" role="alert">
-          {error}
-        </p>
-      ) : null}
+      <section className="page-panel" aria-live="polite" aria-busy={isLoading}>
+        <h2 className="page-panel-title">Results</h2>
 
-      {isLoading ? <p>Loading audit logs...</p> : null}
+        {error ? (
+          <p className="status-error" role="alert">
+            {error}
+          </p>
+        ) : null}
 
-      {!isLoading && data.rows.length === 0 ? (
-        <p>No audit log rows found for selected filters.</p>
-      ) : null}
+        {isLoading ? (
+          <>
+            <p className="status-info" role="status">
+              Loading audit logs...
+            </p>
+            <div className="admin-audit-table-wrap data-table-wrap">
+              <TableSkeleton rows={7} columns={6} label="Loading audit logs" />
+            </div>
+          </>
+        ) : (
+          <div className="admin-audit-table-wrap data-table-wrap">
+            <AuditTable rows={data.rows} />
+          </div>
+        )}
 
-      {data.rows.length > 0 ? (
-        <div className="admin-audit-table-wrap">
-          <AuditTable rows={data.rows} />
+        <div className="admin-audit-pagination data-pagination">
+          <p>
+            Page {page} of {totalPages} | Total rows: {data.total || 0} | Sort
+            via table headers
+          </p>
+
+          <div className="admin-audit-pagination-actions data-pagination-actions">
+            <Button
+              type="button"
+              disabled={page <= 1 || isLoading}
+              onClick={() => setPage((current) => Math.max(1, current - 1))}
+            >
+              Previous
+            </Button>
+
+            <Button
+              type="button"
+              disabled={page >= totalPages || isLoading}
+              onClick={() => setPage((current) => current + 1)}
+            >
+              Next
+            </Button>
+          </div>
         </div>
-      ) : null}
-
-      <div className="admin-audit-pagination">
-        <p>
-          Page {page} of {totalPages} | Total rows: {data.total || 0}
-        </p>
-
-        <div className="admin-audit-pagination-actions">
-          <Button
-            type="button"
-            disabled={page <= 1 || isLoading}
-            onClick={() => setPage((current) => Math.max(1, current - 1))}
-          >
-            Previous
-          </Button>
-
-          <Button
-            type="button"
-            disabled={page >= totalPages || isLoading}
-            onClick={() => setPage((current) => current + 1)}
-          >
-            Next
-          </Button>
-        </div>
-      </div>
+      </section>
     </section>
   );
 }
