@@ -1,0 +1,46 @@
+# Render Blueprint for Classroom Availability (free-tier friendly)
+# Update placeholder values marked with <> before deploying.
+
+services:
+  - type: web
+    name: classroom-availability-backend
+    env: node
+    plan: free
+    region: oregon
+    rootDir: backend
+    buildCommand: npm ci
+    startCommand: npm start
+    autoDeploy: true
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: "4000"
+      - key: FRONTEND_ORIGIN
+        value: https://<your-frontend>.onrender.com
+      - key: DATABASE_URL
+        value: postgresql://<user>:<password>@<host>:5432/<db>
+      - key: JWT_ACCESS_SECRET
+        value: <random-32+bytes>
+      - key: JWT_REFRESH_SECRET
+        value: <random-32+bytes>
+      - key: JWT_ACCESS_EXPIRES_IN
+        value: 15m
+      - key: JWT_REFRESH_EXPIRES_IN
+        value: 7d
+      - key: AUTH_MAX_REFRESH_SESSIONS
+        value: "5"
+
+  - type: web
+    name: classroom-availability-frontend
+    env: static
+    plan: free
+    region: oregon
+    rootDir: frontend
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    autoDeploy: true
+    envVars:
+      - key: VITE_API_URL
+        value: https://<your-backend>.onrender.com/api/v1
