@@ -30,9 +30,8 @@ async function main() {
     data: {
       email: adminEmail,
       passwordHash: hashedPassword,
-      name: "Admin",
+      fullName: "Admin",
       role: "ADMIN",
-      fullName: "Admin User",
     },
   });
 
