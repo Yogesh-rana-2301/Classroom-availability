@@ -9,7 +9,7 @@ services:
     region: oregon
     rootDir: backend
     buildCommand: npm ci && npx prisma migrate deploy
-    startCommand: npm start
+    startCommand: npm run prisma:create-prod-admin && npm start
     autoDeploy: true
     healthCheckPath: /api/v1/health
     envVars:
