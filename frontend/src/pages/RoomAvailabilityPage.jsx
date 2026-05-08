@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { fetchRoomAvailability } from "../features/availability/api/availabilityApi";
 import AvailabilityGrid from "../features/availability/components/AvailabilityGrid";
 import { createBooking } from "../features/bookings/api/bookingsApi";
@@ -19,6 +19,8 @@ function getTodayDateValue() {
 export default function RoomAvailabilityPage() {
   const { user } = useAuth();
   const { id } = useParams();
+  const location = useLocation();
+  const returnTo = location.state?.returnTo || "";
   const [date, setDate] = useState(getTodayDateValue);
   const [data, setData] = useState({
     roomId: id,
@@ -172,7 +174,7 @@ export default function RoomAvailabilityPage() {
         description="Check timeline status and create a booking when a slot is free."
         breadcrumbs={[
           { label: "Dashboard", to: "/dashboard" },
-          { label: "Classrooms", to: "/classrooms" },
+          { label: "Classrooms", to: `/classrooms${returnTo}` },
           { label: "Room Availability" },
         ]}
         meta={
@@ -181,7 +183,7 @@ export default function RoomAvailabilityPage() {
           </>
         }
         actions={
-          <Link to="/classrooms">
+          <Link to={`/classrooms${returnTo}`}>
             <Button type="button" variant="secondary">
               Back to Rooms
             </Button>

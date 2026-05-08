@@ -1,9 +1,17 @@
+import {
+  Alert,
+  Box,
+  Breadcrumbs,
+  Button,
+  CircularProgress,
+  Container,
+  Link as MuiLink,
+  Typography,
+} from "@mui/material";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { TimetableUploader } from "../features/admin";
 import { importTimetable } from "../features/admin/api/adminApi";
-import Button from "../shared/components/Button";
-import PageHeader from "../shared/components/PageHeader";
 
 export default function AdminTimetablePage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -41,32 +49,48 @@ export default function AdminTimetablePage() {
   }
 
   return (
-    <section className="page admin-timetable-page">
-      <PageHeader
-        title="Timetable Management"
-        description="Upload and validate recurring official timetable slots."
-        breadcrumbs={[
-          { label: "Dashboard", to: "/dashboard" },
-          { label: "Admin" },
-          { label: "Timetable" },
-        ]}
-        actions={
-          <Link to="/admin/maintenance">
-            <Button type="button" variant="secondary">
-              Manage Room Status
-            </Button>
-          </Link>
-        }
-      />
+    <Container maxWidth="lg">
+      <Breadcrumbs aria-label="breadcrumb" sx={{ mb: 2 }}>
+        <MuiLink
+          component={Link}
+          underline="hover"
+          color="inherit"
+          to="/dashboard"
+        >
+          Dashboard
+        </MuiLink>
+        <Typography color="text.primary">Admin</Typography>
+        <Typography color="text.primary">Timetable</Typography>
+      </Breadcrumbs>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          mb: 2,
+        }}
+      >
+        <Box>
+          <Typography variant="h4" component="h1">
+            Timetable Management
+          </Typography>
+          <Typography>
+            Upload and validate recurring official timetable slots.
+          </Typography>
+        </Box>
+        <Button component={Link} to="/admin/maintenance" variant="outlined">
+          Manage Room Status
+        </Button>
+      </Box>
 
-      {error ? (
-        <p className="status-error" role="alert">
+      {error && (
+        <Alert severity="error" sx={{ mt: 2 }}>
           {error}
-        </p>
-      ) : null}
+        </Alert>
+      )}
 
-      {result ? (
-        <div className="admin-import-result" role="status">
+      {result && (
+        <Alert severity="success" sx={{ mt: 2 }}>
           <h2>Import Summary</h2>
           <p>{result.message || "Timetable imported successfully."}</p>
           <ul>
@@ -74,16 +98,12 @@ export default function AdminTimetablePage() {
             <li>Imported slots: {result.importedSlots ?? 0}</li>
             <li>Payload entries processed: {result.payloadPreview ?? 0}</li>
           </ul>
-        </div>
-      ) : null}
+        </Alert>
+      )}
 
-      {isLoading ? (
-        <p className="status-info" role="status">
-          Import in progress. Validating payload and syncing timetable...
-        </p>
-      ) : null}
+      {isLoading && <CircularProgress sx={{ mt: 2 }} />}
 
       <TimetableUploader onUpload={handleImport} isLoading={isLoading} />
-    </section>
+    </Container>
   );
 }

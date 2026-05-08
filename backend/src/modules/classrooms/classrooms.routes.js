@@ -11,6 +11,12 @@ import {
 export const classroomsRouter = Router();
 
 classroomsRouter.get(
+  "/filters",
+  requireAuth,
+  asyncHandler(classroomsController.filterOptions),
+);
+
+classroomsRouter.get(
   "/",
   requireAuth,
   validateRequest({ query: classroomsQuerySchema }),

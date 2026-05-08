@@ -32,3 +32,10 @@ export function toAvailabilityDto(payload) {
     ...(payload.message ? { message: payload.message } : {}),
   };
 }
+
+export function toClassroomFilterOptionsDto(payload = {}) {
+  return {
+    buildings: payload.buildings || [],
+    facilities: payload.facilities || [],
+  };
+}

@@ -4,6 +4,64 @@ import {
   parseDateOnlyUtc,
 } from "../../common/validators/dateOnly.js";
 
+function timeToMinutes(value) {
+  const [hour, minute] = String(value || "")
+    .split(":")
+    .map(Number);
+  if (!Number.isFinite(hour) || !Number.isFinite(minute)) {
+    return null;
+  }
+  return hour * 60 + minute;
+}
+
+function buildAvailabilityFilter(filters) {
+  if (!filters?.date && !filters?.startTime && !filters?.endTime) {
+    return null;
+  }
+
+  if (!filters?.date || !filters?.startTime || !filters?.endTime) {
+    const error = new Error(
+      "Availability filters require date, startTime, and endTime",
+    );
+    error.status = 400;
+    throw error;
+  }
+
+  const parsedDate = parseDateOnlyUtc(filters.date);
+  if (!parsedDate) {
+    const error = new Error("Invalid date format, expected YYYY-MM-DD");
+    error.status = 400;
+    throw error;
+  }
+
+  const startMinutes = timeToMinutes(filters.startTime);
+  const endMinutes = timeToMinutes(filters.endTime);
+
+  if (startMinutes === null || endMinutes === null) {
+    const error = new Error("Invalid time format, expected HH:mm");
+    error.status = 400;
+    throw error;
+  }
+
+  if (startMinutes >= endMinutes) {
+    const error = new Error("startTime must be before endTime");
+    error.status = 400;
+    throw error;
+  }
+
+  const { dayStart, dayEnd } = getUtcDayBounds(parsedDate.date);
+  const dayOfWeek = dayStart.getUTCDay();
+  const compatibleDayValues = dayOfWeek === 0 ? [0, 7] : [dayOfWeek];
+
+  return {
+    startTime: filters.startTime,
+    endTime: filters.endTime,
+    dayStart,
+    dayEnd,
+    compatibleDayValues,
+  };
+}
+
 function buildMaintenanceSlots() {
   return [
     {
@@ -41,8 +99,22 @@ function mapBookingSlot(slot) {
 }
 
 export const classroomsService = {
+  async filterOptions() {
+    return classroomsRepository.listFilterOptions();
+  },
+
   async list(filters) {
-    return classroomsRepository.list(filters);
+    const availability = buildAvailabilityFilter(filters);
+    const nextFilters = { ...filters };
+
+    if (availability) {
+      if (typeof nextFilters.isMaintenance !== "boolean") {
+        nextFilters.isMaintenance = false;
+      }
+      nextFilters.availability = availability;
+    }
+
+    return classroomsRepository.list(nextFilters);
   },
 
   async getById(id) {

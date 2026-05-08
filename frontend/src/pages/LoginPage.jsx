@@ -2,7 +2,13 @@ import { useState } from "react";
 import { useAuth } from "../app/AuthProvider";
 import { Navigate, useNavigate } from "react-router-dom";
 import { LoginForm } from "../features/auth";
-import { TextSkeleton } from "../shared/components/LoadingSkeleton";
+import {
+  Alert,
+  Box,
+  CircularProgress,
+  Container,
+  Typography,
+} from "@mui/material";
 
 export default function LoginPage() {
   const { login, isAuthenticated, isBootstrapping } = useAuth();
@@ -12,13 +18,24 @@ export default function LoginPage() {
 
   if (isBootstrapping) {
     return (
-      <section className="page">
-        <h1>Login</h1>
-        <p className="status-info" role="status">
-          Checking your session...
-        </p>
-        <TextSkeleton lines={3} label="Checking session state" />
-      </section>
+      <Container component="main" maxWidth="xs">
+        <Box
+          sx={{
+            marginTop: 8,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Typography component="h1" variant="h5">
+            Login
+          </Typography>
+          <p className="status-info" role="status">
+            Checking your session...
+          </p>
+          <CircularProgress />
+        </Box>
+      </Container>
     );
   }
 
@@ -44,20 +61,29 @@ export default function LoginPage() {
   }
 
   return (
-    <section className="page">
-      <h1>Login</h1>
-      <p>Sign in with your institutional account.</p>
-      {error ? (
-        <p className="status-error" role="alert">
-          {error}
-        </p>
-      ) : null}
-      {isLoading ? (
-        <p className="status-info" role="status">
-          Authenticating account...
-        </p>
-      ) : null}
-      <LoginForm onSubmit={handleLogin} isLoading={isLoading} />
-    </section>
+    <Container component="main" maxWidth="xs">
+      <Box
+        sx={{
+          marginTop: 8,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <Typography component="h1" variant="h5">
+          Login
+        </Typography>
+        <Typography component="p" sx={{ mt: 1 }}>
+          Sign in with your institutional account.
+        </Typography>
+        {error && (
+          <Alert severity="error" sx={{ mt: 2, width: "100%" }}>
+            {error}
+          </Alert>
+        )}
+        {isLoading && <CircularProgress sx={{ mt: 2 }} />}
+        <LoginForm onSubmit={handleLogin} isLoading={isLoading} />
+      </Box>
+    </Container>
   );
 }

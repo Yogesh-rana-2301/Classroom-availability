@@ -1,10 +1,35 @@
 import { prisma } from "../../config/db.js";
 
 export const classroomsRepository = {
+  async listFilterOptions() {
+    const [buildingRows, facilityRows] = await prisma.$transaction([
+      prisma.classroom.findMany({
+        select: { building: true },
+        distinct: ["building"],
+        orderBy: { building: "asc" },
+      }),
+      prisma.classroom.findMany({
+        select: { facilities: true },
+      }),
+    ]);
+
+    const buildings = buildingRows.map((row) => row.building).filter(Boolean);
+    const facilities = Array.from(
+      new Set(
+        facilityRows.flatMap((row) =>
+          Array.isArray(row.facilities) ? row.facilities : [],
+        ),
+      ),
+    ).sort((left, right) => left.localeCompare(right));
+
+    return { buildings, facilities };
+  },
+
   async list(filters) {
     const page = filters.page || 1;
     const pageSize = filters.pageSize || 20;
     const skip = (page - 1) * pageSize;
+    const availability = filters.availability;
 
     const where = {
       ...(filters.building
@@ -45,6 +70,34 @@ export const classroomsRepository = {
           }
         : {}),
     };
+
+    if (availability) {
+      where.AND = [
+        {
+          timetableSlots: {
+            none: {
+              isActive: true,
+              dayOfWeek: { in: availability.compatibleDayValues },
+              startTime: { lt: availability.endTime },
+              endTime: { gt: availability.startTime },
+            },
+          },
+        },
+        {
+          bookings: {
+            none: {
+              status: "CONFIRMED",
+              date: {
+                gte: availability.dayStart,
+                lt: availability.dayEnd,
+              },
+              startTime: { lt: availability.endTime },
+              endTime: { gt: availability.startTime },
+            },
+          },
+        },
+      ];
+    }
 
     const [items, total] = await prisma.$transaction([
       prisma.classroom.findMany({

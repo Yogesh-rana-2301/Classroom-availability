@@ -1,4 +1,4 @@
-import Button from "../../../shared/components/Button";
+import { Button, Chip, TablePagination } from "@mui/material";
 import DataTable from "../../../shared/table/DataTable";
 
 function formatDate(value) {
@@ -15,9 +15,14 @@ function formatDate(value) {
 }
 
 export default function BookingTable({
-  items = [],
+  bookings = [],
   onCancel,
-  cancellingBookingId,
+  cancellingId,
+  page,
+  pageSize,
+  total,
+  onPageChange,
+  onPageSizeChange,
 }) {
   const columns = [
     { key: "room", label: "Room", sortable: true },
@@ -33,23 +38,34 @@ export default function BookingTable({
     { key: "actions", label: "Actions" },
   ];
 
-  const rows = items.map((item) => ({
+  const rows = bookings.map((item) => ({
     id: item.id,
-    room: item.classroom?.roomCode || item.roomId,
+    room: item.classroom?.roomCode || item.classroomId,
     date: formatDate(item.date),
     sortDate: item.date || "",
     slot: `${item.startTime} - ${item.endTime}`,
     purpose: item.purpose || "-",
-    status: <span className="status-pill">{item.status}</span>,
+    status: (
+      <Chip
+        label={item.status}
+        color={
+          item.status === "CONFIRMED"
+            ? "success"
+            : item.status === "CANCELLED"
+              ? "error"
+              : "default"
+        }
+      />
+    ),
     actions:
       item.status === "CONFIRMED" && typeof onCancel === "function" ? (
         <Button
           onClick={() => onCancel(item)}
-          disabled={cancellingBookingId === item.id}
-          type="button"
-          variant="secondary"
+          disabled={cancellingId === item.id}
+          variant="outlined"
+          size="small"
         >
-          {cancellingBookingId === item.id ? "Cancelling..." : "Cancel"}
+          {cancellingId === item.id ? "Cancelling..." : "Cancel"}
         </Button>
       ) : (
         <span>-</span>
@@ -57,10 +73,23 @@ export default function BookingTable({
   }));
 
   return (
-    <DataTable
-      columns={columns}
-      rows={rows}
-      emptyMessage="No bookings match your current filters."
-    />
+    <>
+      <DataTable
+        columns={columns}
+        rows={rows}
+        emptyMessage="No bookings match your current filters."
+      />
+      <TablePagination
+        component="div"
+        count={total}
+        page={page - 1}
+        rowsPerPage={pageSize}
+        onPageChange={(e, newPage) => onPageChange(newPage + 1)}
+        onRowsPerPageChange={(e) => {
+          onPageSizeChange(parseInt(e.target.value, 10));
+          onPageChange(1);
+        }}
+      />
+    </>
   );
 }

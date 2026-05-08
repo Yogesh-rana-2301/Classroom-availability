@@ -1,20 +1,21 @@
 import { Link } from "react-router-dom";
-import Button from "../shared/components/Button";
-import PageHeader from "../shared/components/PageHeader";
+import { Button, Typography, Breadcrumbs } from "@mui/material";
 
 export default function DashboardPage() {
   return (
-    <section className="page">
-      <PageHeader
-        title="Dashboard"
-        description="Role-aware overview: live availability, quick actions, pending bookings."
-        breadcrumbs={[{ label: "Dashboard" }]}
-        actions={
-          <Link to="/classrooms">
-            <Button type="button">Browse Rooms</Button>
-          </Link>
-        }
-      />
-    </section>
+    <>
+      <Breadcrumbs aria-label="breadcrumb">
+        <Typography color="text.primary">Dashboard</Typography>
+      </Breadcrumbs>
+      <Typography variant="h4" component="h1" sx={{ mt: 2, mb: 1 }}>
+        Dashboard
+      </Typography>
+      <Typography sx={{ mb: 2 }}>
+        Role-aware overview: live availability, quick actions, pending bookings.
+      </Typography>
+      <Button component={Link} to="/classrooms" variant="contained">
+        Browse Rooms
+      </Button>
+    </>
   );
 }

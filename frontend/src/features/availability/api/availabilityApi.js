@@ -5,6 +5,11 @@ export async function fetchClassrooms(params = {}) {
   return data.data;
 }
 
+export async function fetchClassroomFilterOptions() {
+  const { data } = await api.get("/classrooms/filters");
+  return data.data;
+}
+
 export async function fetchRoomAvailability(roomId, params = {}) {
   const { data } = await api.get(`/classrooms/${roomId}/availability`, {
     params,

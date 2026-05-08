@@ -11,6 +11,8 @@
     "prisma:migrate": "prisma migrate dev",
     "prisma:push": "prisma db push",
     "prisma:seed": "prisma db seed",
+    "prisma:create-admin": "node prisma/scripts/create-admin.js",
+    "prisma:create-prod-admin": "node scripts/create-production-admin.js",
     "dev:db:reset": "prisma db push --force-reset && prisma db seed",
     "audit:retention": "node prisma/scripts/prune-audit-logs.js"
   },

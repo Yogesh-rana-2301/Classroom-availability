@@ -24,6 +24,20 @@ export default function AdminAuditLogsPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
+  const actionOptions = useMemo(() => {
+    const values = new Set(
+      (data.rows || []).map((row) => row?.action).filter(Boolean),
+    );
+    return Array.from(values).sort((left, right) => left.localeCompare(right));
+  }, [data.rows]);
+
+  const entityOptions = useMemo(() => {
+    const values = new Set(
+      (data.rows || []).map((row) => row?.entity).filter(Boolean),
+    );
+    return Array.from(values).sort((left, right) => left.localeCompare(right));
+  }, [data.rows]);
+
   const query = useMemo(() => {
     const params = { page, pageSize };
 
@@ -118,28 +132,38 @@ export default function AdminAuditLogsPage() {
         <div className="admin-audit-toolbar data-filters">
           <label>
             Action
-            <TextInput
-              type="text"
+            <select
               value={action}
-              placeholder="AUTH_LOGIN"
               onChange={(event) => {
                 setAction(event.target.value);
                 setPage(1);
               }}
-            />
+            >
+              <option value="">All Actions</option>
+              {actionOptions.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
           </label>
 
           <label>
             Entity
-            <TextInput
-              type="text"
+            <select
               value={entity}
-              placeholder="BOOKING"
               onChange={(event) => {
                 setEntity(event.target.value);
                 setPage(1);
               }}
-            />
+            >
+              <option value="">All Entities</option>
+              {entityOptions.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
           </label>
 
           <label>

@@ -1,8 +1,6 @@
 import { useState } from "react";
-import FieldError from "../../../shared/feedback/FieldError";
-import FormErrorSummary from "../../../shared/feedback/FormErrorSummary";
-import TextInput from "../../../shared/forms/TextInput";
 import { validateLoginForm } from "../../../shared/forms/validators";
+import { Box, Button, TextField } from "@mui/material";
 
 export default function LoginForm({ onSubmit, isLoading }) {
   const [email, setEmail] = useState("");
@@ -25,62 +23,57 @@ export default function LoginForm({ onSubmit, isLoading }) {
   }
 
   return (
-    <form className="form-layout" onSubmit={handleSubmit} noValidate>
-      <FormErrorSummary errors={errors} />
-
-      <label className="form-field" htmlFor="login-email">
-        <span className="form-label">Email</span>
-        <TextInput
-          id="login-email"
-          className={errors.email ? "form-input-invalid" : ""}
-          value={email}
-          onChange={(e) => {
-            setEmail(e.target.value);
-            setErrors((current) => ({ ...current, email: undefined }));
-          }}
-          type="email"
-          placeholder="name@institution.edu"
-          disabled={isLoading}
-          required
-          aria-invalid={Boolean(errors.email)}
-          aria-describedby={
-            errors.email ? "login-email-error" : "login-email-help"
-          }
-        />
-        <span id="login-email-help" className="form-helper">
-          Use your institutional email address.
-        </span>
-        <FieldError id="login-email-error" message={errors.email} />
-      </label>
-
-      <label className="form-field" htmlFor="login-password">
-        <span className="form-label">Password</span>
-        <TextInput
-          id="login-password"
-          className={errors.password ? "form-input-invalid" : ""}
-          value={password}
-          onChange={(e) => {
-            setPassword(e.target.value);
-            setErrors((current) => ({ ...current, password: undefined }));
-          }}
-          type="password"
-          placeholder="Enter your password"
-          disabled={isLoading}
-          required
-          aria-invalid={Boolean(errors.password)}
-          aria-describedby={
-            errors.password ? "login-password-error" : "login-password-help"
-          }
-        />
-        <span id="login-password-help" className="form-helper">
-          Passwords are case-sensitive.
-        </span>
-        <FieldError id="login-password-error" message={errors.password} />
-      </label>
-
-      <button className="form-submit" disabled={isLoading} type="submit">
+    <Box
+      component="form"
+      onSubmit={handleSubmit}
+      noValidate
+      sx={{ mt: 1, width: "100%" }}
+    >
+      <TextField
+        margin="normal"
+        required
+        fullWidth
+        id="email"
+        label="Email Address"
+        name="email"
+        autoComplete="email"
+        autoFocus
+        value={email}
+        onChange={(e) => {
+          setEmail(e.target.value);
+          setErrors((current) => ({ ...current, email: undefined }));
+        }}
+        error={Boolean(errors.email)}
+        helperText={errors.email || "Use your institutional email address."}
+        disabled={isLoading}
+      />
+      <TextField
+        margin="normal"
+        required
+        fullWidth
+        name="password"
+        label="Password"
+        type="password"
+        id="password"
+        autoComplete="current-password"
+        value={password}
+        onChange={(e) => {
+          setPassword(e.target.value);
+          setErrors((current) => ({ ...current, password: undefined }));
+        }}
+        error={Boolean(errors.password)}
+        helperText={errors.password || "Passwords are case-sensitive."}
+        disabled={isLoading}
+      />
+      <Button
+        type="submit"
+        fullWidth
+        variant="contained"
+        sx={{ mt: 3, mb: 2 }}
+        disabled={isLoading}
+      >
         {isLoading ? "Signing in..." : "Sign in"}
-      </button>
-    </form>
+      </Button>
+    </Box>
   );
 }

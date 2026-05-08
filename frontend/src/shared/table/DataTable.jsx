@@ -1,3 +1,13 @@
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TableSortLabel,
+} from "@mui/material";
 import { useMemo, useState } from "react";
 
 function resolveSortValue(column, row) {
@@ -20,10 +30,8 @@ function resolveSortValue(column, row) {
 export default function DataTable({
   columns = [],
   rows = [],
-  className = "",
   emptyMessage = "No records to display.",
 }) {
-  const classes = ["ca-data-table", className].filter(Boolean).join(" ");
   const defaultSortColumn = columns.find((column) => column.sortable);
   const [sortConfig, setSortConfig] = useState(
     defaultSortColumn
@@ -75,63 +83,55 @@ export default function DataTable({
   }
 
   return (
-    <table className={classes}>
-      <thead>
-        <tr>
-          {columns.map((column) => {
-            const isSorted = sortConfig.key === column.key;
-            const ariaSort = column.sortable
-              ? isSorted
-                ? sortConfig.direction === "asc"
-                  ? "ascending"
-                  : "descending"
-                : "none"
-              : undefined;
-
-            return (
-              <th key={column.key} aria-sort={ariaSort}>
+    <TableContainer component={Paper}>
+      <Table>
+        <TableHead>
+          <TableRow>
+            {columns.map((column) => (
+              <TableCell
+                key={column.key}
+                sortDirection={
+                  sortConfig.key === column.key ? sortConfig.direction : false
+                }
+              >
                 {column.sortable ? (
-                  <button
-                    type="button"
-                    className="data-table-sort"
+                  <TableSortLabel
+                    active={sortConfig.key === column.key}
+                    direction={
+                      sortConfig.key === column.key
+                        ? sortConfig.direction
+                        : "asc"
+                    }
                     onClick={() => handleSort(column)}
                   >
                     {column.label}
-                    <span className="data-table-sort-icon" aria-hidden="true">
-                      {isSorted
-                        ? sortConfig.direction === "asc"
-                          ? "↑"
-                          : "↓"
-                        : "↕"}
-                    </span>
-                  </button>
+                  </TableSortLabel>
                 ) : (
-                  <span>{column.label}</span>
+                  column.label
                 )}
-              </th>
-            );
-          })}
-        </tr>
-      </thead>
-      <tbody>
-        {sortedRows.map((row, index) => (
-          <tr key={row.id || index}>
-            {columns.map((column) => (
-              <td key={column.key}>{row[column.key]}</td>
+              </TableCell>
             ))}
-          </tr>
-        ))}
-        {!sortedRows.length ? (
-          <tr>
-            <td colSpan={columns.length}>
-              <div className="empty-state">
-                <p className="empty-state-title">No results found</p>
-                <p className="empty-state-description">{emptyMessage}</p>
-              </div>
-            </td>
-          </tr>
-        ) : null}
-      </tbody>
-    </table>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {sortedRows.length === 0 && (
+            <TableRow>
+              <TableCell colSpan={columns.length} align="center">
+                {emptyMessage}
+              </TableCell>
+            </TableRow>
+          )}
+          {sortedRows.map((row, rowIndex) => (
+            <TableRow key={row.id || rowIndex}>
+              {columns.map((column) => (
+                <TableCell key={column.key}>
+                  {column.render ? column.render(row) : row[column.key]}
+                </TableCell>
+              ))}
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 }

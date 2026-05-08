@@ -1,5 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { fetchClassrooms } from "../features/availability/api/availabilityApi";
+import {
+  fetchClassroomFilterOptions,
+  fetchClassrooms,
+} from "../features/availability/api/availabilityApi";
 import { toggleClassroomMaintenance } from "../features/admin/api/adminApi";
 import { MaintenanceSwitch } from "../features/admin";
 import TextInput from "../shared/forms/TextInput";
@@ -26,6 +29,8 @@ export default function AdminMaintenancePage() {
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [pendingToggles, setPendingToggles] = useState({});
+  const [filterOptions, setFilterOptions] = useState({ buildings: [] });
+  const [filterOptionsError, setFilterOptionsError] = useState("");
 
   const query = useMemo(() => {
     const nextQuery = { page, pageSize };
@@ -75,6 +80,34 @@ export default function AdminMaintenancePage() {
   useEffect(() => {
     loadRooms();
   }, [loadRooms]);
+
+  useEffect(() => {
+    let active = true;
+
+    async function loadFilterOptions() {
+      setFilterOptionsError("");
+
+      try {
+        const response = await fetchClassroomFilterOptions();
+        if (active) {
+          setFilterOptions({ buildings: response?.buildings || [] });
+        }
+      } catch (requestError) {
+        if (active) {
+          setFilterOptionsError(
+            requestError?.response?.data?.message ||
+              "Unable to load building options.",
+          );
+        }
+      }
+    }
+
+    loadFilterOptions();
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   const totalPages = Math.max(
     1,
@@ -212,15 +245,20 @@ export default function AdminMaintenancePage() {
 
           <label>
             Building
-            <TextInput
-              type="text"
-              placeholder="Main Block"
+            <select
               value={building}
               onChange={(event) => {
                 setBuilding(event.target.value);
                 setPage(1);
               }}
-            />
+            >
+              <option value="">All Buildings</option>
+              {filterOptions.buildings.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
           </label>
 
           <label>
@@ -257,6 +295,11 @@ export default function AdminMaintenancePage() {
             <p className="filter-help-text">
               Use reset in the header to clear all filters.
             </p>
+            {filterOptionsError ? (
+              <p className="filter-help-text status-error" role="alert">
+                {filterOptionsError}
+              </p>
+            ) : null}
           </div>
         </div>
       </section>

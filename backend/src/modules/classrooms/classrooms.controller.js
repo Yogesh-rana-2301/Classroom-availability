@@ -4,9 +4,20 @@ import {
   toAvailabilityDto,
   toClassroomDto,
   toClassroomListDto,
+  toClassroomFilterOptionsDto,
 } from "./classrooms.dto.js";
 
 export const classroomsController = {
+  async filterOptions(req, res) {
+    const data = await classroomsService.filterOptions();
+    return sendSuccess(res, {
+      statusCode: 200,
+      message: "Classroom filter options",
+      data: toClassroomFilterOptionsDto(data),
+      meta: { module: "classrooms", action: "filter-options" },
+    });
+  },
+
   async list(req, res) {
     const data = await classroomsService.list(req.query);
     return sendSuccess(res, {

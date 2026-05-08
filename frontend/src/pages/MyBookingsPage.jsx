@@ -1,10 +1,21 @@
+import {
+  Box,
+  Breadcrumbs,
+  Button,
+  Container,
+  FormControl,
+  InputLabel,
+  Link as MuiLink,
+  MenuItem,
+  Select,
+  Skeleton,
+  Typography,
+} from "@mui/material";
 import { useMemo, useState } from "react";
-import { cancelBooking } from "../features/bookings/api/bookingsApi";
+import { Link } from "react-router-dom";
 import { BookingTable } from "../features/bookings";
+import { cancelBooking } from "../features/bookings/api/bookingsApi";
 import { useBookings } from "../features/bookings/hooks/useBookings";
-import Button from "../shared/components/Button";
-import { TableSkeleton } from "../shared/components/LoadingSkeleton";
-import PageHeader from "../shared/components/PageHeader";
 
 const DEFAULT_PAGE_SIZE = 10;
 
@@ -28,7 +39,7 @@ export default function MyBookingsPage() {
 
   const totalPages = Math.max(
     1,
-    Math.ceil((data.total || 0) / (data.pageSize || pageSize)),
+    Math.ceil((data?.total || 0) / (data?.pageSize || pageSize)),
   );
 
   async function handleCancel(item) {
@@ -37,7 +48,9 @@ export default function MyBookingsPage() {
     }
 
     const confirmed = window.confirm(
-      `Cancel booking for room ${item.classroom?.roomCode || item.classroomId}?`,
+      `Cancel booking for room ${
+        item.classroom?.roomCode || item.classroomId
+      }?`,
     );
 
     if (!confirmed) {
@@ -63,128 +76,75 @@ export default function MyBookingsPage() {
   }
 
   return (
-    <section className="page my-bookings-page">
-      <PageHeader
-        title="My Bookings"
-        description="Track reservations and cancel active entries without losing context."
-        breadcrumbs={[
-          { label: "Dashboard", to: "/dashboard" },
-          { label: "My Bookings" },
-        ]}
-        meta={`Page ${page} of ${totalPages}`}
-        actions={
-          <Button
-            type="button"
-            variant="secondary"
-            onClick={() => setStatus("ALL")}
+    <Container maxWidth="lg">
+      <Breadcrumbs aria-label="breadcrumb" sx={{ mb: 2 }}>
+        <MuiLink
+          component={Link}
+          underline="hover"
+          color="inherit"
+          to="/dashboard"
+        >
+          Dashboard
+        </MuiLink>
+        <Typography color="text.primary">My Bookings</Typography>
+      </Breadcrumbs>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          mb: 2,
+        }}
+      >
+        <Box>
+          <Typography variant="h4" component="h1">
+            My Bookings
+          </Typography>
+          <Typography>
+            Track reservations and cancel active entries without losing context.
+          </Typography>
+        </Box>
+        <Button variant="outlined" onClick={() => setStatus("ALL")}>
+          Show All
+        </Button>
+      </Box>
+
+      <Box sx={{ mb: 2 }}>
+        <FormControl>
+          <InputLabel id="status-filter-label">Status</InputLabel>
+          <Select
+            labelId="status-filter-label"
+            value={status}
+            label="Status"
+            onChange={(event) => {
+              setStatus(event.target.value);
+              setPage(1);
+              setSuccessMessage("");
+              setActionError("");
+            }}
           >
-            Show All
-          </Button>
-        }
-      />
+            <MenuItem value="ALL">All</MenuItem>
+            <MenuItem value="ACTIVE">Active</MenuItem>
+            <MenuItem value="CANCELLED">Cancelled</MenuItem>
+            <MenuItem value="COMPLETED">Completed</MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
 
-      <section className="page-panel" aria-label="Booking filters">
-        <h2 className="page-panel-title">Filter Bookings</h2>
-        <div className="my-bookings-toolbar data-filters">
-          <label>
-            Status
-            <select
-              value={status}
-              onChange={(event) => {
-                setStatus(event.target.value);
-                setPage(1);
-                setSuccessMessage("");
-                setActionError("");
-              }}
-            >
-              <option value="ALL">All</option>
-              <option value="CONFIRMED">Confirmed</option>
-              <option value="CANCELLED">Cancelled</option>
-            </select>
-          </label>
-
-          <label>
-            Page Size
-            <select
-              value={String(pageSize)}
-              onChange={(event) => {
-                setPageSize(Number(event.target.value));
-                setPage(1);
-              }}
-            >
-              <option value="10">10</option>
-              <option value="20">20</option>
-              <option value="50">50</option>
-            </select>
-          </label>
-        </div>
-      </section>
-
-      <section className="page-panel" aria-live="polite" aria-busy={isLoading}>
-        <h2 className="page-panel-title">Results</h2>
-
-        {error ? (
-          <p className="status-error" role="alert">
-            {error}
-          </p>
-        ) : null}
-
-        {actionError ? (
-          <p className="status-error" role="alert">
-            {actionError}
-          </p>
-        ) : null}
-
-        {successMessage ? (
-          <p className="status-success" role="status">
-            {successMessage}
-          </p>
-        ) : null}
-
-        {isLoading ? (
-          <>
-            <p className="status-info" role="status">
-              Loading your bookings...
-            </p>
-            <div className="my-bookings-table-wrap data-table-wrap">
-              <TableSkeleton rows={6} columns={6} label="Loading bookings" />
-            </div>
-          </>
-        ) : (
-          <div className="my-bookings-table-wrap data-table-wrap">
-            <BookingTable
-              items={data.items}
-              onCancel={handleCancel}
-              cancellingBookingId={cancellingBookingId}
-            />
-          </div>
-        )}
-
-        <div className="my-bookings-pagination data-pagination">
-          <p>
-            Page {page} of {totalPages} | Total bookings: {data.total || 0} |
-            Sort via table headers
-          </p>
-
-          <div className="my-bookings-pagination-actions data-pagination-actions">
-            <Button
-              type="button"
-              disabled={page <= 1 || isLoading}
-              onClick={() => setPage((current) => Math.max(1, current - 1))}
-            >
-              Previous
-            </Button>
-
-            <Button
-              type="button"
-              disabled={page >= totalPages || isLoading}
-              onClick={() => setPage((current) => current + 1)}
-            >
-              Next
-            </Button>
-          </div>
-        </div>
-      </section>
-    </section>
+      {isLoading ? (
+        <Skeleton variant="rectangular" width="100%" height={400} />
+      ) : (
+        <BookingTable
+          bookings={data?.items || []}
+          onCancel={handleCancel}
+          cancellingId={cancellingBookingId}
+          page={page}
+          pageSize={pageSize}
+          total={data?.total || 0}
+          onPageChange={setPage}
+          onPageSizeChange={setPageSize}
+        />
+      )}
+    </Container>
   );
 }

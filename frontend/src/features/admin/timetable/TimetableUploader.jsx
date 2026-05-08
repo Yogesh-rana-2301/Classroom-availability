@@ -1,6 +1,13 @@
+import {
+  Alert,
+  Box,
+  Button,
+  Card,
+  CardContent,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useMemo, useState } from "react";
-import FormErrorSummary from "../../../shared/feedback/FormErrorSummary";
-import TextInput from "../../../shared/forms/TextInput";
 import { validateTimetableImportPayload } from "../../../shared/forms/validators";
 
 const samplePayload = {
@@ -72,71 +79,63 @@ export default function TimetableUploader({ onUpload, isLoading = false }) {
   }
 
   return (
-    <section className="timetable-uploader">
-      <h2>Import Timetable JSON</h2>
-      <p>Paste JSON payload or upload a file with the same structure.</p>
+    <Card sx={{ mt: 4 }}>
+      <CardContent>
+        <Typography variant="h5" component="h2">
+          Import Timetable JSON
+        </Typography>
+        <Typography sx={{ mb: 2 }}>
+          Paste JSON payload or upload a file with the same structure.
+        </Typography>
 
-      <form className="form-layout" onSubmit={submitPayload}>
-        <div className="timetable-uploader-actions">
-          <label className="form-field" htmlFor="timetable-file-input">
-            <span className="form-label">Upload File</span>
-            <TextInput
-              id="timetable-file-input"
-              type="file"
-              accept="application/json"
-              onChange={(event) => handleFileUpload(event.target.files?.[0])}
+        <Box component="form" onSubmit={submitPayload}>
+          {errors.payload && <Alert severity="error">{errors.payload}</Alert>}
+
+          <Box sx={{ display: "flex", gap: 2, my: 2 }}>
+            <Button variant="outlined" component="label" disabled={isLoading}>
+              Upload File
+              <input
+                type="file"
+                hidden
+                accept="application/json"
+                onChange={(event) => handleFileUpload(event.target.files?.[0])}
+              />
+            </Button>
+            <Button
+              variant="outlined"
+              onClick={() => {
+                setJsonValue(prettyTemplate);
+                setErrors({});
+              }}
               disabled={isLoading}
-              aria-describedby="timetable-file-help"
-            />
-            <span id="timetable-file-help" className="form-helper">
-              Upload a JSON file with timetable schedule data.
-            </span>
-          </label>
-          <button
-            type="button"
-            className="ca-button ca-button-secondary"
-            onClick={() => {
-              setJsonValue(prettyTemplate);
-              setErrors({});
-            }}
+            >
+              Reset to Sample
+            </Button>
+          </Box>
+
+          <TextField
+            id="timetable-payload"
+            label="JSON Payload"
+            multiline
+            rows={20}
+            value={jsonValue}
+            onChange={(e) => setJsonValue(e.target.value)}
+            error={Boolean(errors.payload)}
+            helperText={errors.payload}
+            disabled={isLoading}
+            fullWidth
+          />
+
+          <Button
+            type="submit"
+            variant="contained"
+            sx={{ mt: 2 }}
             disabled={isLoading}
           >
-            Reset Sample
-          </button>
-        </div>
-
-        <label className="form-field" htmlFor="timetable-json-input">
-          <span className="form-label">Timetable JSON</span>
-          <textarea
-            id="timetable-json-input"
-            className={`timetable-json-input${errors.payload || errors.schedule ? " form-input-invalid" : ""}`}
-            value={jsonValue}
-            onChange={(event) => {
-              setJsonValue(event.target.value);
-              setErrors((current) => ({
-                ...current,
-                payload: undefined,
-                schedule: undefined,
-              }));
-            }}
-            rows={18}
-            spellCheck={false}
-            disabled={isLoading}
-            aria-invalid={Boolean(errors.payload || errors.schedule)}
-            aria-describedby="timetable-json-help"
-          />
-          <span id="timetable-json-help" className="form-helper">
-            Paste valid JSON. Invalid syntax or schema issues will be listed
-            below.
-          </span>
-        </label>
-
-        <FormErrorSummary errors={errors} title="Import blocked:" />
-
-        <button className="form-submit" type="submit" disabled={isLoading}>
-          {isLoading ? "Importing..." : "Import Timetable"}
-        </button>
-      </form>
-    </section>
+            {isLoading ? "Importing..." : "Import Timetable"}
+          </Button>
+        </Box>
+      </CardContent>
+    </Card>
   );
 }
