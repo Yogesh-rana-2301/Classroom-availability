@@ -6,11 +6,13 @@ import {
   Link as MuiLink,
   Skeleton,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation, useSearchParams } from "react-router-dom";
 import { fetchClassroomFilterOptions } from "../features/availability/api/availabilityApi";
 import FilterModal from "../features/availability/components/FilterModal";
+import ClassroomCard from "../features/availability/components/ClassroomCard";
 import { useAvailability } from "../features/availability/hooks/useAvailability";
 import DataTable from "../shared/table/DataTable";
 
@@ -390,6 +392,9 @@ export default function ClassroomsPage() {
       setSlotEnd("");
     }
   }, [slotEnd, slotStart]);
+
+  const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+
   const rows = data?.items.map((room) => ({
     id: room.id,
     roomCode: room.roomCode,
@@ -438,8 +443,22 @@ export default function ClassroomsPage() {
           </Typography>
           <Typography>Browse and filter all learning spaces.</Typography>
         </Box>
-        <Button variant="contained" onClick={() => setIsFilterModalOpen(true)}>
-          Filter
+        <Box>
+          <Button
+            variant="contained"
+            onClick={() => setIsFilterModalOpen(true)}
+          >
+            Filter
+          </Button>
+        </Box>
+      </Box>
+
+      <Box sx={{ display: "flex", gap: 2, mb: 2 }}>
+        <Button variant="outlined" onClick={() => handleInstantCheck("now")}>
+          Available Now
+        </Button>
+        <Button variant="outlined" onClick={() => handleInstantCheck("next")}>
+          Available Next Hour
         </Button>
       </Box>
 
@@ -475,6 +494,12 @@ export default function ClassroomsPage() {
 
       {isLoading ? (
         <Skeleton variant="rectangular" width="100%" height={400} />
+      ) : isMobile ? (
+        <Box>
+          {rows.map((row) => (
+            <ClassroomCard key={row.id} room={row} returnTo={location.search} />
+          ))}
+        </Box>
       ) : (
         <DataTable columns={columns} rows={rows || []} />
       )}

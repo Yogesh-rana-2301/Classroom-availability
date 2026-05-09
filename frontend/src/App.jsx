@@ -1,6 +1,4 @@
-import { NavLink, Outlet } from "react-router-dom";
-import { useAuth } from "./app/AuthProvider";
-import { ROLES } from "./constants/roles";
+import { Menu as MenuIcon, Close as CloseIcon } from "@mui/icons-material";
 import {
   AppBar,
   Box,
@@ -8,10 +6,20 @@ import {
   Container,
   createTheme,
   CssBaseline,
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
+  ListItemText,
   ThemeProvider,
   Toolbar,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
+import { useState } from "react";
+import { NavLink, Outlet } from "react-router-dom";
+import { useAuth } from "./app/AuthProvider";
+import { ROLES } from "./constants/roles";
 
 const theme = createTheme({
   palette: {
@@ -21,6 +29,16 @@ const theme = createTheme({
     },
     secondary: {
       main: "#dc004e",
+    },
+  },
+  typography: {
+    // Tell MUI to use responsive font sizes
+    htmlFontSize: 16,
+    '@media (max-width:600px)': {
+      htmlFontSize: 14,
+    },
+    '@media (min-width:900px)': {
+      htmlFontSize: 16,
     },
   },
 });
@@ -71,6 +89,8 @@ const NAV_GROUPS = {
 
 export default function App() {
   const { user, isAuthenticated, isBootstrapping, logout } = useAuth();
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const userRole = user?.role;
   const visibleNavGroups = NAV_GROUPS[userRole] || [];
@@ -87,12 +107,48 @@ export default function App() {
     );
   }
 
+  const drawerContent = (
+    <Box
+      sx={{ width: 250 }}
+      role="presentation"
+      onClick={() => setIsDrawerOpen(false)}
+      onKeyDown={() => setIsDrawerOpen(false)}
+    >
+      <Toolbar>
+        <Typography variant="h6" sx={{ flexGrow: 1 }}>
+          Menu
+        </Typography>
+        <IconButton onClick={() => setIsDrawerOpen(false)}>
+          <CloseIcon />
+        </IconButton>
+      </Toolbar>
+      <List>
+        {navItems.map((item) => (
+          <ListItem button key={item.to} component={NavLink} to={item.to}>
+            <ListItemText primary={item.label} />
+          </ListItem>
+        ))}
+      </List>
+    </Box>
+  );
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Box sx={{ display: "flex" }}>
         <AppBar component="nav">
           <Toolbar>
+            {isMobile && (
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                edge="start"
+                onClick={() => setIsDrawerOpen(true)}
+                sx={{ mr: 2 }}
+              >
+                <MenuIcon />
+              </IconButton>
+            )}
             <Typography
               variant="h6"
               component="div"
@@ -113,7 +169,7 @@ export default function App() {
               ))}
             </Box>
             <Box sx={{ flexGrow: 1 }} />
-            <Typography sx={{ mr: 2 }}>
+            <Typography sx={{ mr: 2, display: { xs: "none", md: "block" } }}>
               {user?.fullName || user?.name || user?.email || "User"} (
               {userRole})
             </Typography>
@@ -122,7 +178,14 @@ export default function App() {
             </Button>
           </Toolbar>
         </AppBar>
-        <Box component="main" sx={{ p: 3 }}>
+        <Drawer
+          anchor="left"
+          open={isDrawerOpen}
+          onClose={() => setIsDrawerOpen(false)}
+        >
+          {drawerContent}
+        </Drawer>
+        <Box component="main" sx={{ p: 3, width: "100%" }}>
           <Toolbar />
           <Container>
             <Outlet />

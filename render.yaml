@@ -39,6 +39,9 @@ services:
     buildCommand: npm ci && npm run build
     staticPublishPath: dist
     autoDeploy: true
+    routes:
+      - path: /*
+        destination: /index.html
     envVars:
       - key: VITE_API_URL
         value: https://<your-backend>.onrender.com/api/v1
