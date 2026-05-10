@@ -13,6 +13,8 @@
     "prisma:seed": "prisma db seed",
     "prisma:create-admin": "node prisma/scripts/create-admin.js",
     "prisma:create-prod-admin": "node scripts/create-production-admin.js",
+    "prisma:create-prod-faculty": "node scripts/create-production-faculty.js",
+    "prisma:create-prod-student": "node scripts/create-production-student.js",
     "dev:db:reset": "prisma db push --force-reset && prisma db seed",
     "audit:retention": "node prisma/scripts/prune-audit-logs.js"
   },
